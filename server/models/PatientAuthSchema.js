@@ -6,15 +6,22 @@ const PatientAuthSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   mobile: {
     type: String,
     required: true,
     unique: true,
+  },
+  dob: {
+    type: String,
+    required: true,
+  },
+  blood_group: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: String,
+    required: true,
   },
   password: {
     type: String,
@@ -23,10 +30,6 @@ const PatientAuthSchema = new mongoose.Schema({
   cpassword: {
     type: String,
     required: true,
-  },
-  gst: {
-    type: String,
-    unique: true,
   },
 });
 
