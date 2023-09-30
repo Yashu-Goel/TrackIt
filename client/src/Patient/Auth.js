@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "../Components/Navbar.js"
 
 const API_BASE = "http://localhost:5000";
 
@@ -79,7 +80,12 @@ const Auth = () => {
 
   return (
     <div>
+      <Navbar/>
+    
+    <div>
+      
       {isLogin ? (
+
         <div>
           <h2>Login</h2>
           <form onSubmit={handleLogin}>
@@ -180,6 +186,7 @@ const Auth = () => {
         </div>
       )}
       <ToastContainer position="top-center" autoClose={3000} theme="colored" />
+    </div>
     </div>
   );
 };
