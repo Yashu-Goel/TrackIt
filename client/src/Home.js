@@ -1,10 +1,26 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import "./Home.css";
+import logo from './steth.png'
 
 const Home = () => {
   return (
     <div>
       {/* Code here */}
-      <h1>hi</h1>
+      <div class="header">
+        <img src={logo}></img>
+        <div class="lorem" >
+          Lorem impsum
+        </div>
+      </div>
+      <div class="main">
+        <h1>TrackIt</h1>
+        <hr />
+        <div class="bt">
+        <Link to="/patient_auth"><button>Patient</button></Link>
+        <Link to="/patient_auth"><button>Doctor</button></Link>
+        </div>
+      </div>
     </div>
   )
 }
