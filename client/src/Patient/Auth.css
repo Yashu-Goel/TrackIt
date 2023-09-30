@@ -1,0 +1,82 @@
+/* for sbse outer div */
+.outContainer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:white;
+}
+
+/* outer ke andr wala div */
+.container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 1rem 0;
+}
+
+.seller-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.container label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.input-field {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.log-button {
+    padding: 12px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.log-button:hover {
+    background-color: rgb(43, 38, 38);
+}
+
+.switch-button {
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.switch-button:hover {
+    color: rgb(43, 38, 38);
+}
+
+
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+        max-width: 95%;
+    }
+}

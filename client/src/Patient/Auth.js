@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Components/Navbar.js";
+import "./Auth.css";
 
 const API_BASE = "http://localhost:5000";
 
@@ -80,7 +81,7 @@ const Auth = () => {
     }
     if (signupData.aadhar.length > 12 || signupData.aadhar.length < 12)
     {
-      toast.info("Mobile Number must be of 12 digits");
+      toast.info("Aadhar Number must be of 12 digits");
       return;
     }
     const today = new Date();
@@ -129,16 +130,18 @@ const Auth = () => {
   return (
     <div>
       <Navbar />
-      <div>
+      <div class="outContainer">
+        <div class="container">
         {isLogin ? (
           <div>
-            <h2>Login</h2>
+            <h2>Welcome Back! Login Here.</h2>
             <form onSubmit={handleLogin}>
               <label htmlFor="mobileOrAadhar">Mobile Number or Aadhar:</label>
               <input
                 type="text"
                 id="mobileOrAadhar"
                 name="mobileOrAadhar"
+                class="input-field"
                 minLength={10}
                 value={loginData.mobileOrAadhar}
                 onChange={(e) => handleInputChange(e, "login")}
@@ -149,26 +152,28 @@ const Auth = () => {
                 type="password"
                 id="password"
                 name="password"
+                class="input-field"
                 value={loginData.password}
                 onChange={(e) => handleInputChange(e, "login")}
               />
 
-              <button type="submit">Login</button>
+                <button type="submit" class="log-button">Login</button>
             </form>
             <p>
-              Don't have an account?
-              <button onClick={toggleAuthMode}>Register</button>
+               Don't have an account?            
+              <button  class="switch-button" onClick={toggleAuthMode}>Register</button>
             </p>
           </div>
         ) : (
           <div>
-            <h2>Signup</h2>
+            <h2>Welcome! Signup Here.</h2>
             <form onSubmit={handleSignup}>
               <label htmlFor="name">Name:</label>
               <input
                 type="text"
                 id="name"
                 name="name"
+                class="input-field"
                 value={signupData.name}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -177,6 +182,7 @@ const Auth = () => {
                 type="date"
                 id="dob"
                 name="dob"
+                class="input-field"
                 value={signupData.dob}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -184,6 +190,7 @@ const Auth = () => {
               <select
                 id="gender"
                 name="gender"
+                class="input-field"
                 value={signupData.gender}
                 onChange={(e) => handleInputChange(e, "signup")}
               >
@@ -199,6 +206,7 @@ const Auth = () => {
                 type="text"
                 id="mobile"
                 name="mobile"
+                    class="input-field"
                 value={signupData.mobile}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -207,6 +215,7 @@ const Auth = () => {
                 type="email"
                 id="email"
                 name="email"
+                    class="input-field"
                 value={signupData.email}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -215,6 +224,7 @@ const Auth = () => {
                 type="text"
                 id="aadhar"
                 name="aadhar"
+                    class="input-field"
                 value={signupData.aadhar}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -223,6 +233,7 @@ const Auth = () => {
                 type="password"
                 id="password"
                 name="password"
+                    class="input-field"
                 value={signupData.password}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -231,14 +242,15 @@ const Auth = () => {
                 type="password"
                 id="cpassword"
                 name="cpassword"
+                    class="input-field"
                 value={signupData.cpassword}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
-              <button type="submit">Signup</button>
+              <button type="submit" class="log-button">Signup</button>
             </form>
             <p>
               Already have an account?
-              <button onClick={toggleAuthMode}>Login</button>
+                  <button className="switch-button"  onClick={toggleAuthMode}>Login</button>
             </p>
           </div>
         )}
@@ -248,6 +260,7 @@ const Auth = () => {
           theme="colored"
         />
       </div>
+    </div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import "./Home.css";
+import "./Home.css"
+import Navbar from './Components/Navbar'
 // import logo from './steth.png'
-import Navbar from './Components/Navbar';
+
 
 const Home = () => {
   return (
