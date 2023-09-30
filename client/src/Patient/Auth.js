@@ -30,58 +30,59 @@ const Auth = () => {
   const toggleAuthMode = () => {
     setIsLogin((prevMode) => !prevMode);
   };
-//login
-const handleLogin = async (e) => {
-  e.preventDefault();
+  //login
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await axios.post(
-      `${API_BASE}/patient/patient_login`,
-      loginData
-    );
-    console.log(response);
+    try {
+      const response = await axios.post(
+        `${API_BASE}/patient/patient_login`,
+        loginData
+      );
+      console.log(response);
 
-    if (response.data.error) {
-      toast.error(response.data.error);
-    } else {
-      toast.success("Login success!!");
-      setTimeout(()=>{
-      navigate("/");
-      },3500)
-
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        toast.success("Login success!!");
+        setTimeout(() => {
+          navigate("/");
+        }, 3500);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Login failed");
+      console.error("Login failed", error);
     }
-  } catch (error) {
-    toast.error(error.response?.data?.error || "Login failed");
-    console.error("Login failed", error);
-  }
-};
+  };
 
-//signup
-const handleSignup = async (e) => {
-  e.preventDefault();
-
-  try {
-    console.log("Sending signup data:", signupData);
-    const response = await axios.post(
-      `${API_BASE}/patient/patient_signup`,
-      signupData
-    );
-
-    console.log("Signup response:", response);
-
-    if (response.data.error) {
-      toast.error(response.data.error);
-    } else {
-      toast.success("Registered");
-      console.log(response.data);
+  //signup
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if(!signupData.name || !signupData.gender || !signupData.dob || !signupData.password || !signupData.cpassword || !signupData.mobile || !signupData.aadhar)
+    {
+      toast.info("Fill all details");
+      return;
     }
-  } catch (error) {
-    toast.error(error.response?.data?.error || "Signup failed");
-    console.error("Signup failed", error);
-  }
-};
+    try {
+      console.log("Sending signup data:", signupData);
+      const response = await axios.post(
+        `${API_BASE}/patient/patient_signup`,
+        signupData
+      );
 
+      console.log("Signup response:", response);
 
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        toast.success("Registered");
+        console.log(response.data);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Signup failed");
+      console.error("Signup failed", error);
+    }
+  };
 
   const handleInputChange = (e, formType) => {
     const { name, value } = e.target;

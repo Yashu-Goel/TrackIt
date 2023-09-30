@@ -6,7 +6,6 @@ import { config } from "dotenv";
 import patient from './router/patient.js'
 import doctor from './router/doctor.js'
 
-console.log(process.env.DATABASE);
 //Middleware
 app.use(cors());
 app.use("/patient", patient);

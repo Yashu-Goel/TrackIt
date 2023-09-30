@@ -16,27 +16,29 @@ router.get("/", (req, res) => {
 });
 //patient signup
 router.post("/patient_signup", async (req, res) => {
-  console.log(req.body);
-  const { name, dob, gender, mobile, email, aadhar, password, cpassword } =
-    req.body;
-  if (
-    !name ||
-    !dob ||
-    !gender ||
-    !mobile ||
-    !email ||
-    !aadhar ||
-    !password ||
-    !cpassword
-  ) {
-    return res.status(422).json({ error: "Please fill all the fields" });
-  }
   try {
+    console.log("Received signup request:", req.body);
+    const { name, dob, gender, mobile, email, aadhar, password, cpassword } =
+      req.body;
+
+    if (
+      !name ||
+      !dob ||
+      !gender ||
+      !mobile ||
+      !email ||
+      !aadhar ||
+      !password ||
+      !cpassword
+    ) {
+      return res.status(422).json({ error: "Please fill all the fields" });
+    }
+
     const patientExistsByMobile = await Patient.findOne({ mobile: mobile });
     const patientExistsByAadhar = await Patient.findOne({ aadhar: aadhar });
 
     if (patientExistsByMobile || patientExistsByAadhar) {
-      return res.status(422).json({error: "Patient already exists"});
+      return res.status(422).json({ error: "Patient already exists" });
     } else if (password !== cpassword) {
       return res.status(422).json({
         error: "Password and Confirm Password must be the same!",
@@ -52,20 +54,23 @@ router.post("/patient_signup", async (req, res) => {
         password,
         cpassword,
       });
-      console.log(patient);
+
+
       if (patient) {
-        res.status(200).json({
+        return res.status(200).json({
           _id: patient._id,
           name: patient.name,
           mobile: patient.mobile,
           message: "Patient registered successfully",
         });
       } else {
-        res.status(400).json("Signup failed");
+        return res.status(400).json("Signup failed");
       }
     }
   } catch (error) {
-  return res.status(422).json({ error: "Internal Server Error" });  }
+    console.error("Error during signup:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 
