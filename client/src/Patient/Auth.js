@@ -159,7 +159,7 @@ const Auth = () => {
 
                 <button type="submit" class="log-button">Login</button>
             </form>
-            <p>
+            <p className="demo">
                Don't have an account?            
               <button  class="switch-button" onClick={toggleAuthMode}>Register</button>
             </p>
