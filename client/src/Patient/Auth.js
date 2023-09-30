@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "../Components/Navbar.js"
+import Navbar from "../Components/Navbar.js";
 
 const API_BASE = "http://localhost:5000";
 
@@ -11,56 +12,76 @@ const Auth = () => {
 
   const [signupData, setSignupData] = useState({
     name: "",
-    mobile: "",
     dob: "",
-    blood_group: "", 
-    age: "",
+    gender: "",
+    mobile: "",
+    email: "",
+    aadhar: "",
     password: "",
-    cpassword: "", 
+    cpassword: "",
   });
+  const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
-    mobile: "",
+    mobileOrAadhar: "",
     password: "",
   });
 
   const toggleAuthMode = () => {
     setIsLogin((prevMode) => !prevMode);
   };
+//login
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-  // Login
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  try {
+    const response = await axios.post(
+      `${API_BASE}/patient/patient_login`,
+      loginData
+    );
+    console.log(response);
 
-    try {
-      const response = await axios.post(
-        `${API_BASE}/patient/patient_login`,
-        loginData
-      );
-      console.log(response.data);
+    if (response.data.error) {
+      toast.error(response.data.error);
+    } else {
       toast.success("Login success!!");
-    } catch (error) {
-      toast.error(error.message || "Login failed");
-      console.error("Login failed", error);
+      setTimeout(()=>{
+      navigate("/");
+      },3500)
+
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.error || "Login failed");
+    console.error("Login failed", error);
+  }
+};
 
-  // Signup
-  const handleSignup = async (e) => {
-    e.preventDefault();
+//signup
+const handleSignup = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        `${API_BASE}/patient/patient_signup`,
-        signupData
-      );
+  try {
+    console.log("Sending signup data:", signupData);
+    const response = await axios.post(
+      `${API_BASE}/patient/patient_signup`,
+      signupData
+    );
+
+    console.log("Signup response:", response);
+
+    if (response.data.error) {
+      toast.error(response.data.error);
+    } else {
       toast.success("Registered");
       console.log(response.data);
-    } catch (error) {
-      toast.error(error.message || "Signup failed");
-      console.error("Signup failed", error);
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.error || "Signup failed");
+    console.error("Signup failed", error);
+  }
+};
+
+
 
   const handleInputChange = (e, formType) => {
     const { name, value } = e.target;
@@ -80,113 +101,123 @@ const Auth = () => {
 
   return (
     <div>
-      <Navbar/>
-    
-    <div>
-      
-      {isLogin ? (
+      <Navbar />
+      <div>
+        {isLogin ? (
+          <div>
+            <h2>Login</h2>
+            <form onSubmit={handleLogin}>
+              <label htmlFor="mobileOrAadhar">Mobile Number or Aadhar:</label>
+              <input
+                type="text"
+                id="mobileOrAadhar"
+                name="mobileOrAadhar"
+                value={loginData.mobileOrAadhar}
+                onChange={(e) => handleInputChange(e, "login")}
+              />
 
-        <div>
-          <h2>Login</h2>
-          <form onSubmit={handleLogin}>
-            <label htmlFor="mobile">Mobile Number:</label>
-            <input
-              type="text"
-              id="mobile"
-              name="mobile"
-              value={loginData.mobile}
-              onChange={(e) => handleInputChange(e, "login")}
-            />
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={loginData.password}
+                onChange={(e) => handleInputChange(e, "login")}
+              />
 
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={loginData.password}
-              onChange={(e) => handleInputChange(e, "login")}
-            />
+              <button type="submit">Login</button>
+            </form>
+            <p>
+              Don't have an account?
+              <button onClick={toggleAuthMode}>Register</button>
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h2>Signup</h2>
+            <form onSubmit={handleSignup}>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={signupData.name}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <label htmlFor="dob">Date of Birth:</label>
+              <input
+                type="date"
+                id="dob"
+                name="dob"
+                value={signupData.dob}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <label>Gender:</label>
+              <select
+                id="gender"
+                name="gender"
+                value={signupData.gender}
+                onChange={(e) => handleInputChange(e, "signup")}
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="others">Others</option>
+              </select>
 
-            <button type="submit">Login</button>
-          </form>
-          <p>
-            {" "}
-            Don't have an account?{" "}
-            <button onClick={toggleAuthMode}>Register</button>
-          </p>
-        </div>
-      ) : (
-        <div>
-          <h2>Signup</h2>
-          <form onSubmit={handleSignup}>
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={signupData.name}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <label htmlFor="mobile">Mobile Number:</label>
-            <input
-              type="text"
-              id="mobile"
-              name="mobile"
-              value={signupData.mobile}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <label htmlFor="dob">Date of Birth:</label>
-            <input
-              type="text"
-              id="dob"
-              name="dob"
-              value={signupData.dob}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <label htmlFor="blood_group">Blood Group:</label>{" "}
-            {/* Match with the backend naming */}
-            <input
-              type="text"
-              id="blood_group"
-              name="blood_group"
-              value={signupData.blood_group}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <label htmlFor="age">Age:</label>
-            <input
-              type="text"
-              id="age"
-              name="age"
-              value={signupData.age}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={signupData.password}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <label htmlFor="cpassword">Confirm Password:</label>{" "}
-            {/* Match with the backend naming */}
-            <input
-              type="password"
-              id="cpassword"
-              name="cpassword"
-              value={signupData.cpassword}
-              onChange={(e) => handleInputChange(e, "signup")}
-            />
-            <button type="submit">Signup</button>
-          </form>
-          <p>
-            Already have an account?
-            <button onClick={toggleAuthMode}>Login</button>
-          </p>
-        </div>
-      )}
-      <ToastContainer position="top-center" autoClose={3000} theme="colored" />
-    </div>
+              <label htmlFor="mobile">Mobile Number:</label>
+              <input
+                type="text"
+                id="mobile"
+                name="mobile"
+                value={signupData.mobile}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={signupData.email}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <label htmlFor="aadhar">Aadhar:</label>
+              <input
+                type="text"
+                id="aadhar"
+                name="aadhar"
+                value={signupData.aadhar}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={signupData.password}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <label htmlFor="cpassword">Confirm Password:</label>
+              <input
+                type="password"
+                id="cpassword"
+                name="cpassword"
+                value={signupData.cpassword}
+                onChange={(e) => handleInputChange(e, "signup")}
+              />
+              <button type="submit">Signup</button>
+            </form>
+            <p>
+              Already have an account?
+              <button onClick={toggleAuthMode}>Login</button>
+            </p>
+          </div>
+        )}
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          theme="colored"
+        />
+      </div>
     </div>
   );
 };

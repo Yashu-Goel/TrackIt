@@ -17,42 +17,38 @@ router.get("/", (req, res) => {
 //patient signup
 router.post("/patient_signup", async (req, res) => {
   console.log(req.body);
-  const { name, dob, gender, mobile, email, aadhar, password, cpassword } =
-    req.body;
+  const { name, mobile, dob, blood_group, age, password, cpassword } = req.body;
   if (
     !name ||
-    !dob ||
-    !gender ||
     !mobile ||
-    !email ||
-    !aadhar ||
+    !dob ||
+    !blood_group ||
+    !age ||
     !password ||
     !cpassword
   ) {
-    return res.status(422).json({ error: "Please fill all the fields" });
+    return res.status(422).json({ error: "Pls fill all the fields" });
   }
   try {
-    const patientExistsByMobile = await Patient.findOne({ mobile: mobile });
-    const patientExistsByAadhar = await Patient.findOne({ aadhar: aadhar });
+    const PatientExists = await Patient.findOne({ mobile: mobile });
 
-    if (patientExistsByMobile || patientExistsByAadhar) {
-      return res.status(422).json({error: "Patient already exists"});
-    } else if (password !== cpassword) {
+    if (PatientExists) {
+      return res.status(422).json("Patient already Exists");
+    } else if (password != cpassword) {
       return res.status(422).json({
         error: "Password and Confirm Password must be the same!",
       });
     } else {
       const patient = await Patient.create({
         name,
-        dob,
-        gender,
         mobile,
-        email,
-        aadhar,
+        dob,
+        blood_group,
+        age,
         password,
         cpassword,
       });
-      console.log(patient);
+
       if (patient) {
         res.status(200).json({
           _id: patient._id,
@@ -60,14 +56,12 @@ router.post("/patient_signup", async (req, res) => {
           mobile: patient.mobile,
           message: "Patient registered successfully",
         });
-      } else {
-        res.status(400).json("Signup failed");
-      }
+      } else res.status(400).json("Signup failed");
     }
   } catch (error) {
-  return res.status(422).json({ error: "Internal Server Error" });  }
+    res.status(422).json(`${error}`);
+  }
 });
-
 
 //Login for Patient
 router.post("/patient_login", async (req, res) => {
@@ -75,41 +69,29 @@ router.post("/patient_login", async (req, res) => {
     const details = req.body;
     console.log(req.body);
 
-    const { mobileOrAadhar, password } = details;
-    if (!mobileOrAadhar || !password) {
+    const { mobile, password } = details;
+    if (!mobile || !password) {
       return res.status(400).json({ error: "Please fill all the details" });
     }
-
-    const isMobile = /^\d{10}$/.test(mobileOrAadhar);
-    const fieldToSearch = isMobile
-      ? { mobile: mobileOrAadhar }
-      : { aadhar: mobileOrAadhar };
-    console.log(fieldToSearch);
-
-    const patient = await Patient.findOne(fieldToSearch);
+    const patient = await Patient.findOne({ mobile });
     console.log("patient: " + patient);
-
     if (patient) {
       const isMatch = await bcrypt.compare(password, patient.password);
       if (!isMatch) {
-        // Update: Send a proper error message for incorrect password
-        return res.status(401).json({ error: "Invalid Credentials" });
+        res.json({ message: "Invalid Credential" });
       } else {
         const token = jwt.sign({ _id: patient._id }, JWT_Secret);
-        return res.json({
+        res.json({
           token: token,
           _id: patient._id,
           message: "Login Success!!",
         });
       }
     } else {
-      return res.status(401).json({ error: "Invalid Credentials" });
+      res.status(400).send("Invalid Credentials");
     }
   } catch (error) {
     console.log("error: " + error);
-    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
 export default router;

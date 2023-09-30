@@ -4,11 +4,13 @@ import cors from "cors";
 import { connect } from "mongoose";
 import { config } from "dotenv";
 import patient from './router/patient.js'
+import doctor from './router/doctor.js'
 
 console.log(process.env.DATABASE);
 //Middleware
 app.use(cors());
 app.use("/patient", patient);
+app.use("/doctor", doctor);
 
 config();
 connect(process.env.DATABASE)

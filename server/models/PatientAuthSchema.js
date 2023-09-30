@@ -6,22 +6,28 @@ const PatientAuthSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  dob: {
+    type: Date,
+    required: true,
+  },
+  gender:{
+    type: String,
+    required: true,
+  },
   mobile: {
     type: String,
     required: true,
     unique: true,
   },
-  dob: {
+  email: {
     type: String,
     required: true,
+    unique: true,
   },
-  blood_group: {
+  aadhar:{
     type: String,
     required: true,
-  },
-  age: {
-    type: String,
-    required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -37,7 +43,7 @@ const PatientAuthSchema = new mongoose.Schema({
 PatientAuthSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 12);
-    this.cpassword = await bcrypt.hash(this.password, 12);
+    this.cpassword = await bcrypt.hash(this.cpassword, 12);
   }
   next();
 });
