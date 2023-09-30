@@ -63,25 +63,51 @@ const Auth = () => {
       toast.info("Fill all details");
       return;
     }
-    try {
-      console.log("Sending signup data:", signupData);
-      const response = await axios.post(
-        `${API_BASE}/patient/patient_signup`,
-        signupData
-      );
-
-      console.log("Signup response:", response);
-
-      if (response.data.error) {
-        toast.error(response.data.error);
-      } else {
-        toast.success("Registered");
-        console.log(response.data);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.error || "Signup failed");
-      console.error("Signup failed", error);
+    if(signupData.password.length<6)
+    {
+      toast.info("Minimum Length of Password must be 6");
+      return;
     }
+    if(signupData.password!=signupData.password)
+    {
+      toast.info("Password and Confirm Password must be same");
+      return;
+    }
+    if (signupData.mobile.length > 10 || signupData.mobile.length < 10)
+    {
+      toast.info("Mobile Number must be of 10 digits");
+      return;
+    }
+    if (signupData.aadhar.length > 12 || signupData.aadhar.length < 12)
+    {
+      toast.info("Mobile Number must be of 12 digits");
+      return;
+    }
+    const today = new Date();
+    const dobDate = new Date(signupData.dob);
+    if (dobDate > today) {
+        toast.info("Date of Birth must not be a future date");
+        return;
+    }
+      try {
+        console.log("Sending signup data:", signupData);
+        const response = await axios.post(
+          `${API_BASE}/patient/patient_signup`,
+          signupData
+        );
+
+        console.log("Signup response:", response);
+
+        if (response.data.error) {
+          toast.error(response.data.error);
+        } else {
+          toast.success("Registered");
+          console.log(response.data);
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.error || "Signup failed");
+        console.error("Signup failed", error);
+      }
   };
 
   const handleInputChange = (e, formType) => {
@@ -113,6 +139,7 @@ const Auth = () => {
                 type="text"
                 id="mobileOrAadhar"
                 name="mobileOrAadhar"
+                minLength={10}
                 value={loginData.mobileOrAadhar}
                 onChange={(e) => handleInputChange(e, "login")}
               />
@@ -160,11 +187,13 @@ const Auth = () => {
                 value={signupData.gender}
                 onChange={(e) => handleInputChange(e, "signup")}
               >
+                <option value="" disabled>
+                  Select
+                </option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="others">Others</option>
               </select>
-
               <label htmlFor="mobile">Mobile Number:</label>
               <input
                 type="text"
