@@ -7,6 +7,7 @@ import Doctor from "../models/DoctorAuthSchema.js";
 dotenv.config();
 const router = express.Router();
 const JWT_Secret = process.env.JWT_Secret;
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 router.use(express.json());
 router.use(cors());
@@ -14,6 +15,45 @@ router.use(cors());
 router.get("/", (req, res) => {
   res.send("Aur kya kar rahe ho yaha?");
 });
+
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
+const client = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
+});
+
+async function putObject(key, contentType, folder) {
+  const fullKey = folder ? `${folder}/${key}` : key;
+
+  const command = new PutObjectCommand({
+    Bucket: "crids",
+    Key: fullKey,
+    ContentType: contentType,
+  });
+  const url = await getSignedUrl(client, command);
+  return url;
+}
+
+router.post("/get-upload-url", async (req, res) => {
+  try {
+    const folder = "Doctor_Degree";
+    const key = `${Date.now()}.jpg`;
+    const signedUrl = await putObject(key, "image/jpg/png", folder);
+    console.log(signedUrl);
+    res.status(200).json({ signedUrl });
+  } catch (error) {
+    console.error("Error generating signed URL:", error);
+    res.status(500).json({ error: "Unable to generate signed URL" });
+  }
+});
+
 //doctor signup
 router.post("/doctor_signup", async (req, res) => {
   console.log(req.body);
@@ -25,26 +65,33 @@ router.post("/doctor_signup", async (req, res) => {
     aadhar,
     field_of_study,
     past_experiences,
-    degree,
     clinic_location,
     password,
-    cpassword
+    cpassword,
   } = req.body;
+
+  const degreeFile = req.body.degree;
+console.log(degreeFile);
   if (
     !name ||
     !dob ||
     !mobile ||
     !email ||
     !aadhar ||
-    !field_of_study||
+    !field_of_study ||
     !past_experiences ||
-    !degree ||
     !clinic_location ||
     !password ||
-    !cpassword
+    !cpassword ||
+    !degreeFile
   ) {
-    return res.status(422).json({ error: "Pls fill all the fields" });
+    return res
+      .status(422)
+      .json({
+        error: "Please fill in all the fields including the degree document",
+      });
   }
+
   try {
     const doctorExistsByMobile = await Doctor.findOne({ mobile: mobile });
     const doctorExistsByAadhar = await Doctor.findOne({ aadhar: aadhar });
@@ -56,6 +103,22 @@ router.post("/doctor_signup", async (req, res) => {
         error: "Password and Confirm Password must be the same!",
       });
     } else {
+      const degreeKey = `${Date.now()}_${degreeFile.originalname}`;
+
+      const folder = "Doctor_Degree";
+      const signedUrl = await putObject(degreeKey, degreeFile.mimetype, folder);
+      const uploadResult = await fetch(signedUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": degreeFile.mimetype,
+        },
+        body: degreeFile.buffer,
+      });
+
+      if (!uploadResult.ok) {
+        throw new Error("Failed to upload degree document");
+      }
+
       const doctor = await Doctor.create({
         name,
         mobile,
@@ -64,7 +127,7 @@ router.post("/doctor_signup", async (req, res) => {
         aadhar,
         field_of_study,
         past_experiences,
-        degree,
+        degree: degreeKey, 
         clinic_location,
         password,
         cpassword,
@@ -88,35 +151,7 @@ router.post("/doctor_signup", async (req, res) => {
 });
 
 
-//Login for Patient
-// router.post("/doctor_login", async (req, res) => {
-//   try {
-//     const details = req.body;
-//     console.log(req.body);
 
-//     const { mobile, password } = details;
-//     if (!mobile || !password) {
-//       return res.status(400).json({ error: "Please fill all the details" });
-//     }
-//     const patient = await Patient.findOne({ mobile });
-//     console.log("patient: " + patient);
-//     if (patient) {
-//       const isMatch = await bcrypt.compare(password, patient.password);
-//       if (!isMatch) {
-//         res.json({ message: "Invalid Credential" });
-//       } else {
-//         const token = jwt.sign({ _id: patient._id }, JWT_Secret);
-//         res.json({
-//           token: token,
-//           _id: patient._id,
-//           message: "Login Success!!",
-//         });
-//       }
-//     } else {
-//       res.status(400).send("Invalid Credentials");
-//     }
-//   } catch (error) {
-//     console.log("error: " + error);
-//   }
-// });
+
+
 export default router;

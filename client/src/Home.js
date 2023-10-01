@@ -21,7 +21,7 @@ const Home = () => {
         <hr />
         <div class="bt">
         <Link to="/patient_auth"><button>Patient</button></Link>
-        <Link to="/patient_auth"><button>Doctor</button></Link>
+        <Link to="/doctor_auth"><button>Doctor</button></Link>
         </div>
       </div>
     </div>

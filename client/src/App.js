@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Auth from "./Patient/Auth";
+import PatientAuth from "./Patient/Auth";
+import DoctorAuth from "./Doctor/Auth";
 import Home from "./Home.js"
 
 const App = () => {
@@ -8,7 +9,8 @@ const App = () => {
     <>
       <Routes>
       
-        <Route path="/patient_auth" element={<Auth />} />
+        <Route path="/patient_auth" element={<PatientAuth />} />
+        <Route path="/doctor_auth" element={<DoctorAuth />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </>
