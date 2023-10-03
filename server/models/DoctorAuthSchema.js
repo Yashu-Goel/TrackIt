@@ -33,7 +33,7 @@ const DoctorAuthSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  degree: {
+  degreeFile: {
     type: String,
     required: true,
   },

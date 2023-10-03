@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const API_BASE = "http://localhost:5000";
 const Auth = () => {
   const [formData, setFormData] = useState({
@@ -17,51 +20,74 @@ const Auth = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    if (name === "degreeFile") {
-      setFormData({
-        ...formData,
-        [name]: files[0],
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, degreeFile: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      if (key === "degreeFile") {
-        formDataToSend.append(key, formData[key]);
-      } else {
-        formDataToSend.append(key, formData[key]);
-      }
-    }
-
-    console.log("FormData before axios.post:", formDataToSend);
+    const {
+      name,
+      mobile,
+      dob,
+      email,
+      aadhar,
+      field_of_study,
+      past_experiences,
+      degreeFile,
+      clinic_location,
+      password,
+      cpassword,
+    } = formData;
 
     try {
-      const response = await axios.post(
-        API_BASE + "/doctor/doctor_signup",
-        formDataToSend,
-        {
+      const uploadUrlResponse = await axios.post(
+        `${API_BASE}/doctor/get-upload-url`
+      );
+
+      const signedUrl = uploadUrlResponse.data.signedUrl;
+
+      if (degreeFile) {
+        await axios.put(signedUrl, degreeFile, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": degreeFile.type,
           },
+        });
+      }
+
+      const signUpResponse = await axios.post(
+        `${API_BASE}/doctor/doctor_signup`,
+        {
+          name,
+          mobile,
+          dob,
+          email,
+          aadhar,
+          field_of_study,
+          past_experiences,
+          clinic_location,
+          password,
+          cpassword,
+          degreeFile: degreeFile ? degreeFile.name : null,
         }
       );
 
-      console.log("Response from server:", response.data);
+      console.log(signUpResponse.data); // Handle the response as needed
+      toast.success("Signup successful!");
     } catch (error) {
-      console.error("Error submitting form:", error.response.data);
+      if (error.response && error.response.data) {
+        toast.error(error.response.data);
+      } else {
+        toast.error("Error during signup");
+      }
+      console.error("Error during signup:", error);
     }
   };
+
 
   return (
     <div>
@@ -119,8 +145,9 @@ const Auth = () => {
           type="file"
           name="degreeFile"
           accept=".jpg, .jpeg, .png, .pdf"
-          onChange={handleChange}
+          onChange={handleFileChange}
         />
+
         <input
           type="text"
           name="clinic_location"
@@ -145,6 +172,7 @@ const Auth = () => {
 
         <button type="submit">Submit</button>
       </form>
+      <ToastContainer position="top-center" autoClose={3000} theme="colored" />
     </div>
   );
 };

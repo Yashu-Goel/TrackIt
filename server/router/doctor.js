@@ -104,7 +104,7 @@ console.log(degreeFile);
       });
     } else {
       const degreeKey = `${Date.now()}_${degreeFile.originalname}`;
-
+      
       const folder = "Doctor_Degree";
       const signedUrl = await putObject(degreeKey, degreeFile.mimetype, folder);
       const uploadResult = await fetch(signedUrl, {
