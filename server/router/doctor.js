@@ -70,8 +70,9 @@ router.post("/doctor_signup", async (req, res) => {
     cpassword,
   } = req.body;
 
-  const degreeFile = req.body.degree;
-console.log(degreeFile);
+  const degreeFile = req.body.degreeFile;
+  console.log(degreeFile);
+
   if (
     !name ||
     !dob ||
@@ -85,11 +86,9 @@ console.log(degreeFile);
     !cpassword ||
     !degreeFile
   ) {
-    return res
-      .status(422)
-      .json({
-        error: "Please fill in all the fields including the degree document",
-      });
+    return res.status(422).json({
+      error: "Please fill in all the fields including the degree document",
+    });
   }
 
   try {
@@ -104,8 +103,9 @@ console.log(degreeFile);
       });
     } else {
       const degreeKey = `${Date.now()}_${degreeFile.originalname}`;
-      
       const folder = "Doctor_Degree";
+
+      // Use the putObject function for image upload
       const signedUrl = await putObject(degreeKey, degreeFile.mimetype, folder);
       const uploadResult = await fetch(signedUrl, {
         method: "PUT",
@@ -127,7 +127,7 @@ console.log(degreeFile);
         aadhar,
         field_of_study,
         past_experiences,
-        degree: degreeKey, 
+        degree: degreeKey,
         clinic_location,
         password,
         cpassword,
@@ -149,6 +149,7 @@ console.log(degreeFile);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 
