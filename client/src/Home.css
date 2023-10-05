@@ -1,42 +1,84 @@
-
-
-hr{
-    height: 2px;
-    background: black;
-    color:black;
-    border-color:black;
-    margin-top: 0%;
-    width: 100%;
+.forflex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.main {
-    display: flex;
+.main-home {
+    /* width: 100%;*/
+    margin-top: 300px;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 500px;
-    text-align: center;
+    /* height: 500px; */
+    /* text-align: center; */
+    display: grid;
+    /* grid-template-columns: 1fr 2fr; */
+    grid-template-areas:
+        ".oneone .twotwo"
+        ".oneone .three"
+        ".oneone .four";
+    width: 700px;
 }
 
-h1{
-    font-size: 70px;
-    margin-bottom: 0;  
+.oneone {
+    width: 50px;
+    height: 200px;
+
+
 }
 
-button{
+.twotwo {
+    width: 170px;
+    height: 75px;
+
+
+}
+
+.three {
+    width: 170px;
+    height: 30px;
+
+
+}
+
+.four {
+    width: 170px;
+    height: 80px;
+
+}
+
+/* .but-home{
     border-radius: 25px;
     border: 2px solid black;
-    padding: 5px 35px 5px 35px;
-    background-color: white;        
+    padding: 5px 35px 5px 35px;  
+    margin-top: 30px;
+    margin-right: 40px;   
+    margin-left: 40px;  
+    height: 50px;
+    width: 200px;
+    font-weight: 100;
+    background-color: black;
+        color: white;
+        cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
 } 
 
-.bt{
+.but-home:hover {
+    background-color: rgb(43, 38, 38);
+} */
+
+/* .four{
     display: flex;
     flex-direction: row;
     justify-content: center;
     text-align: center;
-}
 
-.lorem{
-    font-weight: bold;
 }
+.three{
+    margin-top: 0px;
+    margin-left: 250px;
+    letter-spacing:0.8px;
+} */

@@ -130,8 +130,8 @@ const Auth = () => {
   return (
     <div>
       <Navbar />
-      <div class="outContainer">
-        <div class="container">
+      <div class="outContainer-patient">
+        <div class="container-patient">
         {isLogin ? (
           <div>
             <h2>Welcome Back! Login Here.</h2>
@@ -141,7 +141,7 @@ const Auth = () => {
                 type="text"
                 id="mobileOrAadhar"
                 name="mobileOrAadhar"
-                class="input-field"
+                class="input-field-patient"
                 minLength={10}
                 value={loginData.mobileOrAadhar}
                 onChange={(e) => handleInputChange(e, "login")}
@@ -152,16 +152,16 @@ const Auth = () => {
                 type="password"
                 id="password"
                 name="password"
-                class="input-field"
+                class="input-field-patient"
                 value={loginData.password}
                 onChange={(e) => handleInputChange(e, "login")}
               />
 
-                <button type="submit" class="log-button">Login</button>
+                <button type="submit" class="log-button-patient">Login</button>
             </form>
             <p className="demo">
                Don't have an account?            
-              <button  class="switch-button" onClick={toggleAuthMode}>Register</button>
+              <button  class="switch-button-patient" onClick={toggleAuthMode}>Register</button>
             </p>
           </div>
         ) : (
@@ -173,7 +173,7 @@ const Auth = () => {
                 type="text"
                 id="name"
                 name="name"
-                class="input-field"
+                class="input-field-patient"
                 value={signupData.name}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -182,7 +182,7 @@ const Auth = () => {
                 type="date"
                 id="dob"
                 name="dob"
-                class="input-field"
+                class="input-field-patient"
                 value={signupData.dob}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -190,7 +190,7 @@ const Auth = () => {
               <select
                 id="gender"
                 name="gender"
-                class="input-field"
+                class="input-field-patient"
                 value={signupData.gender}
                 onChange={(e) => handleInputChange(e, "signup")}
               >
@@ -206,7 +206,7 @@ const Auth = () => {
                 type="text"
                 id="mobile"
                 name="mobile"
-                    class="input-field"
+                class="input-field-patient"
                 value={signupData.mobile}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -215,7 +215,7 @@ const Auth = () => {
                 type="email"
                 id="email"
                 name="email"
-                    class="input-field"
+                class="input-field-patient"
                 value={signupData.email}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -224,7 +224,7 @@ const Auth = () => {
                 type="text"
                 id="aadhar"
                 name="aadhar"
-                    class="input-field"
+                class="input-field-patient"
                 value={signupData.aadhar}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -233,7 +233,7 @@ const Auth = () => {
                 type="password"
                 id="password"
                 name="password"
-                    class="input-field"
+                class="input-field-patient"
                 value={signupData.password}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
@@ -242,15 +242,15 @@ const Auth = () => {
                 type="password"
                 id="cpassword"
                 name="cpassword"
-                    class="input-field"
+                class="input-field-patient"
                 value={signupData.cpassword}
                 onChange={(e) => handleInputChange(e, "signup")}
               />
-              <button type="submit" class="log-button">Signup</button>
+              <button type="submit" class="log-button-patient">Signup</button>
             </form>
             <p>
               Already have an account?
-                  <button className="switch-button"  onClick={toggleAuthMode}>Login</button>
+                  <button className="switch-button-patient"  onClick={toggleAuthMode}>Login</button>
             </p>
           </div>
         )}

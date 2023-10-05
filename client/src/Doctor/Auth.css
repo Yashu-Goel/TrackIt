@@ -1,0 +1,100 @@
+.outContainer-doctor {
+    margin-left: 20px;
+    display: flex;
+        align-items: center;
+        justify-content: center;
+
+}
+
+/* outer ke andr wala div */
+.container-doctor {
+border-radius: 8px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+margin: 0 auto;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 60px;
+    width: 850px;
+    
+}
+
+.input-field-doctor {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    width: 300px;
+    margin-left: 10px;
+
+    
+}
+
+.container-doctor form {
+    display: flex;
+   
+}
+
+.container-doctor label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    width: 150px;
+}
+
+.log-button-doctor {
+    padding: 12px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+    width: 300px;
+    margin-left: 110px;
+}
+
+.log-button-doctor:hover {
+    background-color: rgb(43, 38, 38);
+}
+
+
+
+.custom-file-upload {
+    margin-top: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.img-wrap{
+    
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-img {
+    width: 180px;
+    height: 180px;
+}
+
+::file-selector-button {
+    display: none;
+}
+
+
+.adjacent-field{
+    display: flex;
+        flex-direction: row;
+}
+
+.one{
+    margin-left: 170px;
+}

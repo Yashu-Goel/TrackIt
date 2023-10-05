@@ -1,5 +1,5 @@
 /* for sbse outer div */
-.outContainer {
+.outContainer-patient {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -8,7 +8,7 @@
 }
 
 /* outer ke andr wala div */
-.container {
+.container-patient {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
@@ -19,24 +19,24 @@
     margin: 1rem 0;
 }
 
-.seller-container h1 {
+.container-patient h1 {
     font-size: 28px;
     margin-bottom: 20px;
     text-align: center;
     color: #333;
 }
 
-.container form {
+.container-patient form {
     display: flex;
     flex-direction: column;
 }
 
-.container label {
+.container-patient label {
     margin-bottom: 10px;
     font-weight: bold;
 }
 
-.input-field {
+.input-field-patient {
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -44,7 +44,7 @@
     font-size: 16px;
 }
 
-.log-button {
+.log-button-patient {
     padding: 12px 20px;
     background-color: black;
     color: white;
@@ -56,11 +56,11 @@
     width: 100%;
 }
 
-.log-button:hover {
+.log-button-patient:hover {
     background-color: rgb(43, 38, 38);
 }
 
-.switch-button {
+.switch-button-patient {
     background: none;
     border: none;
     color: black;
