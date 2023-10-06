@@ -72,7 +72,7 @@ const Auth = () => {
             "Content-Type": degreeFile.type,
           },
         });
-
+        // console.log(response);
         const signUpResponse = await axios.post(
           `${API_BASE}/doctor/doctor_signup`,
           {
@@ -100,10 +100,6 @@ const Auth = () => {
         console.error("Error during signup:", error);
       }
     };
-
-
-
-
   return (
     <div>
       <Navbar />

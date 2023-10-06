@@ -44,9 +44,10 @@ async function putObject(key, contentType, folder) {
 
 router.post("/get-upload-url", async (req, res) => {
   try {
-      const uniqueImageName = uniqueFilename("", "image");
+
+    const uniqueImageName = uniqueFilename("", "image");
     const folder = "Doctor_Degree";
-    const signedUrl = await putObject(uniqueFilename, "image/jpg/png", folder);
+    const signedUrl = await putObject(uniqueImageName, "image/jpg/png",folder);
     console.log(signedUrl);
     res.status(200).json({ signedUrl, uniqueFilename: uniqueImageName });
   } catch (error) {
@@ -58,7 +59,6 @@ router.post("/get-upload-url", async (req, res) => {
 //doctor signup
 router.post("/doctor_signup", async (req, res) => {
   console.log(req.body);
-
   const {
     name,
     mobile,
@@ -70,6 +70,7 @@ router.post("/doctor_signup", async (req, res) => {
     clinic_location,
     password,
     cpassword,
+    degreeFile
   } = req.body;
 
   if (
@@ -101,23 +102,6 @@ router.post("/doctor_signup", async (req, res) => {
         error: "Password and Confirm Password must be the same!",
       });
     } else {
-      const degreeKey = `${Date.now()}_${degreeFile.originalname}`;
-      const folder = "Doctor_Degree";
-
-      // Use the putObject function for image upload
-      const signedUrl = await putObject(degreeKey, degreeFile.mimetype, folder);
-      const uploadResult = await fetch(signedUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": degreeFile.mimetype,
-        },
-        body: degreeFile.buffer,
-      });
-
-      if (!uploadResult.ok) {
-        throw new Error("Failed to upload degree document");
-      }
-
       const doctor = await Doctor.create({
         name,
         mobile,
@@ -126,7 +110,7 @@ router.post("/doctor_signup", async (req, res) => {
         aadhar,
         field_of_study,
         past_experiences,
-        degree: degreeKey,
+        degreeFile,
         clinic_location,
         password,
         cpassword,
