@@ -29,7 +29,11 @@ const DoctorAuthSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  past_experiences:{
+  past_experiences: {
+    type: String,
+    required: true,
+  },
+  profilePic: {
     type: String,
     required: true,
   },
@@ -37,7 +41,7 @@ const DoctorAuthSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  clinic_location:{
+  clinic_location: {
     type: String,
     required: true,
   },

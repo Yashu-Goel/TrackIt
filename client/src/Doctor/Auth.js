@@ -27,7 +27,13 @@ const Auth = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, degreeFile: e.target.files[0] });
+    const name = e.target.name;
+    const file = e.target.files[0];
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: file,
+    }));
   };
 
   const isValidAadhar = (aadhar) => /^\d+$/.test(aadhar);
@@ -59,6 +65,7 @@ const Auth = () => {
       field_of_study,
       past_experiences,
       degreeFile,
+      profilePic,
       clinic_location,
       password,
       cpassword,
@@ -73,40 +80,54 @@ const Auth = () => {
       !field_of_study ||
       !past_experiences ||
       !degreeFile ||
+      !profilePic ||
       !clinic_location ||
       !password ||
       !cpassword
     ) {
-      toast.error("Please fill in all fields");
+      toast.info("Please fill in all fields");
       return;
     }
 
     if (aadhar.length !== 12 || !isValidAadhar(aadhar)) {
-      toast.error("Aadhar number must be 12 numeric characters");
+      toast.info("Aadhar number must be 12 numeric characters");
       return;
     }
     if(mobile.length!==10 || !isValidAadhar(mobile))
     {
-      toast.error("Mobile number must be 10 numeric characters");
+      toast.info("Mobile number must be 10 numeric characters");
       return;
     }
     const age = calculateAge(dob);
     if (age < 18) {
-      toast.error("You must be at least 18 years old to register");
+      toast.info("You must be at least 18 years old to register");
       return;
     }
+    if(password.length<6 || cpassword.length<6)
+    {
+      toast.info("Password Length must be 6")
+    }
     if (password !== cpassword) {
-      toast.error("Passwords do not match");
+      toast.info("Passwords do not match");
       return;
     }
 
     try {
-      const uploadUrlResponse = await axios.post(
+      const uploadUrlResponseDegreeFile = await axios.post(
         `${API_BASE}/doctor/get-upload-url`
       );
+      const uploadUrlResponseProfilePic = await axios.post(
+        `${API_BASE}/doctor/get-upload-url2`
+      );
+      //doctor
+      const degreeFileUniqueName =
+        uploadUrlResponseDegreeFile.data.uniqueFilename;
+      const signedUrlDegreeFile = uploadUrlResponseDegreeFile.data.signedUrl;
 
-      const signedUrl = uploadUrlResponse.data.signedUrl;
-      const uniqueFilename = uploadUrlResponse.data.uniqueFilename;
+      //profile pic
+      const profilePicUniqueName =
+        uploadUrlResponseProfilePic.data.uniqueFilename;
+      const signedUrlProfilePic = uploadUrlResponseProfilePic.data.signedUrl;
 
       const formData = new FormData();
       formData.append("name", name);
@@ -119,9 +140,14 @@ const Auth = () => {
       formData.append("clinic_location", clinic_location);
       formData.append("password", password);
       formData.append("cpassword", cpassword);
-      formData.append("degreeFile", uniqueFilename);
-
-      await axios.put(signedUrl, degreeFile, {
+      formData.append("degreeFile", degreeFileUniqueName);
+      formData.append("profilePic", profilePicUniqueName);
+      await axios.put(signedUrlDegreeFile, degreeFile, {
+        headers: {
+          "Content-Type": degreeFile.type,
+        },
+      });
+      await axios.put(signedUrlProfilePic, profilePic, {
         headers: {
           "Content-Type": degreeFile.type,
         },
@@ -138,7 +164,8 @@ const Auth = () => {
         clinic_location,
         password,
         cpassword,
-        degreeFile: uniqueFilename,
+        degreeFile: degreeFileUniqueName,
+        profilePic: profilePicUniqueName,
       });
 
       toast.success("Signup successful!");

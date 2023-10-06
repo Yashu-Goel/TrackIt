@@ -55,6 +55,19 @@ router.post("/get-upload-url", async (req, res) => {
     res.status(500).json({ error: "Unable to generate signed URL" });
   }
 });
+router.post("/get-upload-url2", async (req, res) => {
+  try {
+
+    const uniqueImageName = uniqueFilename("", "image");
+    const folder = "Doctor_Profile_Pic";
+    const signedUrl = await putObject(uniqueImageName, "image/jpg/png",folder);
+    console.log("2: "+signedUrl);
+    res.status(200).json({ signedUrl, uniqueFilename: uniqueImageName });
+  } catch (error) {
+    console.error("Error generating signed URL:", error);
+    res.status(500).json({ error: "Unable to generate signed URL" });
+  }
+});
 
 //doctor signup
 router.post("/doctor_signup", async (req, res) => {
@@ -70,7 +83,8 @@ router.post("/doctor_signup", async (req, res) => {
     clinic_location,
     password,
     cpassword,
-    degreeFile
+    degreeFile,
+    profilePic
   } = req.body;
 
   if (
@@ -84,7 +98,8 @@ router.post("/doctor_signup", async (req, res) => {
     !clinic_location ||
     !password ||
     !cpassword ||
-    !degreeFile
+    !degreeFile ||
+    !profilePic
   ) {
     return res.status(422).json({
       error: "Please fill in all the fields including the degree document",
@@ -111,6 +126,7 @@ router.post("/doctor_signup", async (req, res) => {
         field_of_study,
         past_experiences,
         degreeFile,
+        profilePic,
         clinic_location,
         password,
         cpassword,
