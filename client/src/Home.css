@@ -1,84 +1,40 @@
 .forflex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 100vh;
+    margin-top: 7vh;
 }
 
 .main-home {
-    /* width: 100%;*/
-    margin-top: 300px;
-    /* display: flex;
+    display: flex;
     flex-direction: column;
+    height: 50%; 
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
-    /* height: 500px; */
-    /* text-align: center; */
-    display: grid;
-    /* grid-template-columns: 1fr 2fr; */
-    grid-template-areas:
-        ".oneone .twotwo"
-        ".oneone .three"
-        ".oneone .four";
-    width: 700px;
 }
 
-.oneone {
-    width: 50px;
-    height: 200px;
-
-
-}
-
-.twotwo {
-    width: 170px;
-    height: 75px;
-
-
-}
-
-.three {
-    width: 170px;
-    height: 30px;
-
-
+.main-home img {
+    height: 12rem;
+    width: 28rem;
 }
 
 .four {
-    width: 170px;
-    height: 80px;
-
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }
 
-/* .but-home{
-    border-radius: 25px;
-    border: 2px solid black;
-    padding: 5px 35px 5px 35px;  
-    margin-top: 30px;
-    margin-right: 40px;   
-    margin-left: 40px;  
-    height: 50px;
-    width: 200px;
-    font-weight: 100;
+.but-home {
+    padding: 0.8rem 2rem;
     background-color: black;
-        color: white;
-        cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease-in-out;
-} 
+    color: white;
+    border-radius: 25px;
+    font-size: 2rem;
+    margin: 1rem;
+    transition: 0.3s ease all;
+}
 
 .but-home:hover {
-    background-color: rgb(43, 38, 38);
-} */
-
-/* .four{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-
+    color: black;
+    background-color: white;
+    background-origin: 1px solid black;
+    cursor: pointer;
 }
-.three{
-    margin-top: 0px;
-    margin-left: 250px;
-    letter-spacing:0.8px;
-} */
