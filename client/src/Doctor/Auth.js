@@ -8,86 +8,99 @@ import logo from './profile.png'
 
 const API_BASE = "http://localhost:5000";
 const Auth = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    mobile: "",
-    dob: "",
-    email: "",
-    aadhar: "",
-    field_of_study: "",
-    past_experiences: "",
-    degreeFile: null,
-    clinic_location: "",
-    password: "",
-    cpassword: "",
-  });
+    const [formData, setFormData] = useState({
+      name: "",
+      mobile: "",
+      dob: "",
+      email: "",
+      aadhar: "",
+      field_of_study: "",
+      past_experiences: "",
+      degreeFile: null,
+      clinic_location: "",
+      password: "",
+      cpassword: "",
+    });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, degreeFile: e.target.files[0] });
-  };
+    const handleFileChange = (e) => {
+      setFormData({ ...formData, degreeFile: e.target.files[0] });
+    };
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
+    const handleSubmit = async (e) => {
+      e.preventDefault();
 
-   const {
-     name,
-     mobile,
-     dob,
-     email,
-     aadhar,
-     field_of_study,
-     past_experiences,
-     degreeFile,
-     clinic_location,
-     password,
-     cpassword,
-   } = formData;
+      const {
+        name,
+        mobile,
+        dob,
+        email,
+        aadhar,
+        field_of_study,
+        past_experiences,
+        degreeFile,
+        clinic_location,
+        password,
+        cpassword,
+      } = formData;
 
-   try {
-     const uploadUrlResponse = await axios.post(
-       `${API_BASE}/doctor/get-upload-url`
-     );
+      try {
+        const uploadUrlResponse = await axios.post(
+          `${API_BASE}/doctor/get-upload-url`
+        );
 
-     const signedUrl = uploadUrlResponse.data.signedUrl;
+        const signedUrl = uploadUrlResponse.data.signedUrl;
+        const uniqueFilename = uploadUrlResponse.data.uniqueFilename;
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("mobile", mobile);
+        formData.append("dob", dob);
+        formData.append("email", email);
+        formData.append("aadhar", aadhar);
+        formData.append("field_of_study", field_of_study);
+        formData.append("past_experiences", past_experiences);
+        formData.append("clinic_location", clinic_location);
+        formData.append("password", password);
+        formData.append("cpassword", cpassword);
+        formData.append("degreeFile", uniqueFilename);
 
-     const formData = new FormData();
-     formData.append("name", name);
-     formData.append("mobile", mobile);
-     formData.append("dob", dob);
-     formData.append("email", email);
-     formData.append("aadhar", aadhar);
-     formData.append("field_of_study", field_of_study);
-     formData.append("past_experiences", past_experiences);
-     formData.append("clinic_location", clinic_location);
-     formData.append("password", password);
-     formData.append("cpassword", cpassword);
-     formData.append("degreeFile", degreeFile); 
+        await axios.put(signedUrl, degreeFile, {
+          headers: {
+            "Content-Type": degreeFile.type,
+          },
+        });
 
-     await axios.put(signedUrl, degreeFile, {
-       headers: {
-         "Content-Type": degreeFile.type,
-       },
-     });
+        const signUpResponse = await axios.post(
+          `${API_BASE}/doctor/doctor_signup`,
+          {
+            name,
+            mobile,
+            dob,
+            email,
+            aadhar,
+            field_of_study,
+            past_experiences,
+            clinic_location,
+            password,
+            cpassword,
+            degreeFile: uniqueFilename,
+          }
+        );
 
-     const signUpResponse = await axios.post(
-       `${API_BASE}/doctor/doctor_signup`,
-       formData
-     );
+        toast.success("Signup successful!");
+      } catch (error) {
+        if (error.response && error.response.data) {
+          toast.error(error.response.data);
+        } else {
+          toast.error("Error during signup");
+        }
+        console.error("Error during signup:", error);
+      }
+    };
 
-     toast.success("Signup successful!");
-   } catch (error) {
-     if (error.response && error.response.data) {
-       toast.error(error.response.data);
-     } else {
-       toast.error("Error during signup");
-     }
-     console.error("Error during signup:", error);
-   }
- };
 
 
 
@@ -136,7 +149,6 @@ const Auth = () => {
           placeholder="Date of Birth"
               class="input-field-doctor"
         />
-
         </div>
 
 

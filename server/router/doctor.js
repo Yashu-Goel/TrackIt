@@ -4,6 +4,7 @@ import cors from "cors";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import Doctor from "../models/DoctorAuthSchema.js";
+import uniqueFilename from "unique-filename";
 dotenv.config();
 const router = express.Router();
 const JWT_Secret = process.env.JWT_Secret;
@@ -43,11 +44,11 @@ async function putObject(key, contentType, folder) {
 
 router.post("/get-upload-url", async (req, res) => {
   try {
+      const uniqueImageName = uniqueFilename("", "image");
     const folder = "Doctor_Degree";
-    const key = `${Date.now()}.jpg`;
-    const signedUrl = await putObject(key, "image/jpg/png", folder);
+    const signedUrl = await putObject(uniqueFilename, "image/jpg/png", folder);
     console.log(signedUrl);
-    res.status(200).json({ signedUrl });
+    res.status(200).json({ signedUrl, uniqueFilename: uniqueImageName });
   } catch (error) {
     console.error("Error generating signed URL:", error);
     res.status(500).json({ error: "Unable to generate signed URL" });
@@ -57,6 +58,7 @@ router.post("/get-upload-url", async (req, res) => {
 //doctor signup
 router.post("/doctor_signup", async (req, res) => {
   console.log(req.body);
+
   const {
     name,
     mobile,
@@ -69,9 +71,6 @@ router.post("/doctor_signup", async (req, res) => {
     password,
     cpassword,
   } = req.body;
-
-  const degreeFile = req.body.degreeFile;
-  console.log(degreeFile);
 
   if (
     !name ||
