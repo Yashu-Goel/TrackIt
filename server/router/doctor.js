@@ -149,7 +149,47 @@ router.post("/doctor_signup", async (req, res) => {
   }
 });
 
+//Login Doctor
+router.post("/doctor_login", async (req, res) => {
+  try {
+    const details = req.body;
+    console.log(req.body);
 
+    const { mobileOrAadhar, password } = details;
+    if (!mobileOrAadhar || !password) {
+      return res.status(400).json({ error: "Please fill all the details" });
+    }
+
+    const isMobile = /^\d{10}$/.test(mobileOrAadhar);
+    const fieldToSearch = isMobile
+      ? { mobile: mobileOrAadhar }
+      : { aadhar: mobileOrAadhar };
+    console.log(fieldToSearch);
+
+    const doctor = await Doctor.findOne(fieldToSearch);
+    console.log("doctor: " + doctor);
+
+    if (doctor) {
+      const isMatch = await bcrypt.compare(password, doctor.password);
+      if (!isMatch) {
+        // Update: Send a proper error message for incorrect password
+        return res.status(401).json({ error: "Invalid Credentials" });
+      } else {
+        const token = jwt.sign({ _id: doctor._id }, JWT_Secret);
+        return res.json({
+          token: token,
+          _id: doctor._id,
+          message: "Login Success!!",
+        });
+      }
+    } else {
+      return res.status(401).json({ error: "Invalid Credentials" });
+    }
+  } catch (error) {
+    console.log("error: " + error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 
 
