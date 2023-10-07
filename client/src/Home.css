@@ -23,13 +23,15 @@
 }
 
 .but-home {
-    padding: 0.8rem 2rem;
+    padding: 0.8rem 1rem;
     background-color: black;
     color: white;
     border-radius: 25px;
     font-size: 2rem;
-    margin: 1rem;
+    margin: 0.8rem;
     transition: 0.3s ease all;
+    width: 200px;
+    margin-top: 0px;
 }
 
 .but-home:hover {
@@ -37,4 +39,10 @@
     background-color: white;
     background-origin: 1px solid black;
     cursor: pointer;
+    
+}
+
+.three{
+    margin-top: 0px;
+    font-size: 1px;
 }
