@@ -223,10 +223,13 @@ const Auth = () => {
   return (
     <div>
       <Navbar />
-      <div class="outContainer-doctor">
-        <div class="container-doctor">
+      {/* <div class="outContainer-doctor">
+        <div class="container-doctor"> */}
           {isLogin ? (
-            <div>
+        <div class="outContainer-doctor-login">
+          <div class="container-doctor-login">
+
+            {/* <div> */}
               <h2>Welcome Back! Login Here.</h2>
               <form onSubmit={handleLogin}>
                 <label htmlFor="mobileOrAadhar">Mobile Number or Aadhar:</label>
@@ -234,7 +237,7 @@ const Auth = () => {
                   type="text"
                   id="mobileOrAadhar"
                   name="mobileOrAadhar"
-                  class="input-field-patient"
+                  class="input-field-doctor-login"
                   minLength={10}
                   value={loginData.mobileOrAadhar}
                   onChange={(e) => handleInputChange(e, "login")}
@@ -245,7 +248,7 @@ const Auth = () => {
                   type="password"
                   id="password"
                   name="password"
-                  class="input-field-patient"
+                class="input-field-doctor-login"
                   value={loginData.password}
                   onChange={(e) => handleInputChange(e, "login")}
                 />
@@ -261,7 +264,11 @@ const Auth = () => {
                 </button>
               </p>
             </div>
+            </div>
+            // </div>
           ) : (
+              <div class="outContainer-doctor">
+                <div class="container-doctor">
             <div>
               <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="two">
@@ -429,6 +436,8 @@ const Auth = () => {
                 </button>
               </p>
             </div>
+            </div>
+            </div>
           )}
 
           <ToastContainer
@@ -437,8 +446,8 @@ const Auth = () => {
             theme="colored"
           />
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 };
 
