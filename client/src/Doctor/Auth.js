@@ -177,7 +177,9 @@ const Auth = () => {
         degreeFile: degreeFileUniqueName,
         profilePic: profilePicUniqueName,
       });
-
+      setTimeout(()=>{
+        window.location.reload();
+      },3500)
       toast.success("Signup successful!");
     } catch (error) {
       if (error.response && error.response.data) {
@@ -195,8 +197,8 @@ const Auth = () => {
       [name]: value,
     }));
   };
+
   //Login
-  //login
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -212,7 +214,7 @@ const Auth = () => {
       } else {
         toast.success("Login success!!");
         setTimeout(() => {
-          navigate("/");
+          navigate("/doctor_home");
         }, 3500);
       }
     } catch (error) {

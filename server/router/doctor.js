@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import Doctor from "../models/DoctorAuthSchema.js";
 import uniqueFilename from "unique-filename";
+import DoctorPrescription from "../models/DoctorPrescriptionSchema.js"
 dotenv.config();
 const router = express.Router();
 const JWT_Secret = process.env.JWT_Secret;
@@ -191,7 +192,50 @@ router.post("/doctor_login", async (req, res) => {
   }
 });
 
+//upload patient data from doctor page
+router.post("/upload_prescription", async (req, res) => {
+  console.log(req.body);
+  try {
+    const {
+      patient_name,
+      patient_age,
+      patient_weight,
+      patient_height,
+      prescription,
+    } = req.body;
 
+    if (
+      !patient_name ||
+      !patient_age ||
+      !patient_weight ||
+      !patient_height ||
+      !prescription
+    ) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const newPrescription = new DoctorPrescription({
+      patient_name,
+      patient_age,
+      patient_weight,
+      patient_height,
+      prescription,
+    });
+
+    // Validate the new prescription data
+    const validationError = newPrescription.validateSync();
+    if (validationError) {
+      return res.status(400).json({ error: validationError.message });
+    }
+
+    const savedPrescription = await newPrescription.save();
+
+    res.status(201).json(savedPrescription);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 export default router;
