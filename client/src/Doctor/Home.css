@@ -1,0 +1,197 @@
+/* .outerContainer-DocHome{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    
+  
+}
+
+.innerContainer-DocHome{
+    width: 100%;
+        max-width: 470px;
+        margin: 0 auto;
+        padding: 20px 40px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        margin: 1rem 0;
+}
+
+
+.input-DocHome{
+    padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        /* margin-left: 10px; */
+        /* width: 300px;
+}
+
+.innerContainer-DocHome label {
+    margin-bottom: 10px;
+        font-weight: bold;
+        width: 130px;
+
+
+} 
+
+.innerContainer-DocHome form {
+    display: flex;
+    flex-direction: column;
+}
+
+.adjacent-field-DocHome {
+    display: flex;
+    flex-direction: row;
+} */
+
+/* .innerContainer-DocHome h2{
+    text-align: center;
+    text-decoration: underline;
+}
+
+.submitBt-DocHome{
+    padding: 10px 18px;
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background-color 0.3s ease-in-out;
+        width: 250px;
+        margin-left: 120px;
+        height: 5opx;
+}
+
+.submitBt-DocHome:hover {
+    background-color: rgb(43, 38, 38);
+} */ 
+
+.header-DocHome{
+    margin-top: 50px;
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: underline;
+}
+
+.header-DocHome h1,h2{
+    margin:0 0 0 0;
+}
+
+.header-DocHome h2{
+    margin-top: 10px;
+}
+
+.forFlex-DocHome{
+    display: flex;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        justify-content: space-between;
+
+     
+}
+
+.adjacent-field-DocHome {
+    width: 100%;
+    flex: 0 0 calc(50% - 100px);
+        
+        margin: 5px;
+        
+    display: flex;
+    flex-direction: row;
+   
+}
+
+
+
+.adjacent-field-DocHome label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    padding-left: 10px; 
+}
+
+
+.input-DocHome{
+    margin-left: 20px;
+ border-top: none;
+ border-right: none;
+ border-left: none;
+border-bottom: 1px solid black;
+ 
+}
+
+.prescription{
+    margin-top: 20px;
+    
+}
+
+.input-DocHome-prescription{
+    height: 200px;
+    width: 1505px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+}
+
+
+.adjacent-field-DocHome-non label{
+margin-bottom: 10px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.medicineFlexBox{
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+}
+
+.mediH3{
+    margin-left: 10px;
+    text-decoration: underline;
+}
+
+
+
+.btCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submitBt-DocHome {
+
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s ease-in-out;
+    padding: 10px 18px;
+    margin-left: 10px;
+    width: 200px;
+    margin-top: 20px;
+
+}
+
+.submitBt-DocHome:hover {
+    background-color: rgb(43, 38, 38);
+}
+
+.medicineFlexBox label{
+    margin-bottom: 10px;
+        font-weight: bold;
+}
+
+.mediFlexTwo{
+    margin-left: 10px;
+}
