@@ -1,5 +1,28 @@
 import mongoose from "mongoose";
 
+const MedicineRecordSchema = new mongoose.Schema({
+  medicineName: {
+    type: String,
+    required: true,
+  },
+  morningDose: {
+    type: String,
+    required: true,
+  },
+  afternoonDose: {
+    type: String,
+    required: true,
+  },
+  eveningDose: {
+    type: String,
+    required: true,
+  },
+  totalDays: {
+    type: String,
+    required: true,
+  },
+});
+
 const DoctorPrescriptionSchema = new mongoose.Schema({
   patient_name: {
     type: String,
@@ -21,12 +44,14 @@ const DoctorPrescriptionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date:{
+  medicineRecords: {
+    type: [MedicineRecordSchema],
+    required: true,
+  },
+  date: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
-
-
 
 export default mongoose.model("DoctorPrescription", DoctorPrescriptionSchema);

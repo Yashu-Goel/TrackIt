@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Components/Navbar.js";
+import { DoctorContext } from "./DoctorProvide.js";
 import "./Auth.css";
 import logo from "./profile.png";
 
 const API_BASE = "http://localhost:5000";
 const Auth = () => {
+  const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext); 
   const [isLogin, setIsLogin] = useState(true);
   const [loginData, setLoginData] = useState({
     mobileOrAadhar: "",
@@ -29,9 +31,13 @@ const Auth = () => {
     past_experiences: "",
     degreeFile: null,
     profilePic: null,
-    clinic_location: "",
+    street: "",
+    city: "",
+    state: "",
+    pin_code: "",
     password: "",
     cpassword: "",
+    
   });
 
   const handleChange = (e) => {
@@ -78,7 +84,10 @@ const Auth = () => {
       past_experiences,
       degreeFile,
       profilePic,
-      clinic_location,
+      street,
+      city,
+      state,
+      pin_code,
       password,
       cpassword,
     } = formData;
@@ -93,7 +102,10 @@ const Auth = () => {
       !past_experiences ||
       !degreeFile ||
       !profilePic ||
-      !clinic_location ||
+      !street ||
+      !city ||
+      !state ||
+      !pin_code ||
       !password ||
       !cpassword
     ) {
@@ -114,9 +126,7 @@ const Auth = () => {
       toast.info("You must be at least 18 years old to register");
       return;
     }
-    if (password.length < 6 || cpassword.length < 6) {
-      toast.info("Password Length must be 6");
-    }
+   
     if (password !== cpassword) {
       toast.info("Passwords do not match");
       return;
@@ -147,7 +157,10 @@ const Auth = () => {
       formData.append("aadhar", aadhar);
       formData.append("field_of_study", field_of_study);
       formData.append("past_experiences", past_experiences);
-      formData.append("clinic_location", clinic_location);
+formData.append("street", street);
+formData.append("city", city);
+formData.append("state", state);
+formData.append("pin_code", pin_code);
       formData.append("password", password);
       formData.append("cpassword", cpassword);
       formData.append("degreeFile", degreeFileUniqueName);
@@ -157,11 +170,13 @@ const Auth = () => {
           "Content-Type": degreeFile.type,
         },
       });
+
       await axios.put(signedUrlProfilePic, profilePic, {
         headers: {
-          "Content-Type": degreeFile.type,
+          "Content-Type": profilePic.type,
         },
       });
+
 
       await axios.post(`${API_BASE}/doctor/doctor_signup`, {
         name,
@@ -171,15 +186,20 @@ const Auth = () => {
         aadhar,
         field_of_study,
         past_experiences,
-        clinic_location,
+        clinic_address:{
+          street,
+          city,
+          state,
+          pin_code
+        },
         password,
         cpassword,
         degreeFile: degreeFileUniqueName,
         profilePic: profilePicUniqueName,
       });
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
-      },3500)
+      }, 3500);
       toast.success("Signup successful!");
     } catch (error) {
       if (error.response && error.response.data) {
@@ -213,6 +233,9 @@ const Auth = () => {
         toast.error(response.data.error);
       } else {
         toast.success("Login success!!");
+        const { _id, token } = response.data;
+        localStorage.setItem("_id", _id);
+        localStorage.setItem("token", token);
         setTimeout(() => {
           navigate("/doctor_home");
         }, 3500);
@@ -227,50 +250,49 @@ const Auth = () => {
       <Navbar />
       {/* <div class="outContainer-doctor">
         <div class="container-doctor"> */}
-          {isLogin ? (
+      {isLogin ? (
         <div class="outContainer-doctor-login">
           <div class="container-doctor-login">
-
             {/* <div> */}
-              <h2>Welcome Back! Login Here.</h2>
-              <form onSubmit={handleLogin}>
-                <label htmlFor="mobileOrAadhar">Mobile Number or Aadhar:</label>
-                <input
-                  type="text"
-                  id="mobileOrAadhar"
-                  name="mobileOrAadhar"
-                  class="input-field-doctor-login"
-                  minLength={10}
-                  value={loginData.mobileOrAadhar}
-                  onChange={(e) => handleInputChange(e, "login")}
-                />
-
-                <label htmlFor="password">Password:</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
+            <h2>Welcome Back! Login Here.</h2>
+            <form onSubmit={handleLogin}>
+              <label htmlFor="mobileOrAadhar">Mobile Number or Aadhar:</label>
+              <input
+                type="text"
+                id="mobileOrAadhar"
+                name="mobileOrAadhar"
                 class="input-field-doctor-login"
-                  value={loginData.password}
-                  onChange={(e) => handleInputChange(e, "login")}
-                />
+                minLength={10}
+                value={loginData.mobileOrAadhar}
+                onChange={(e) => handleInputChange(e, "login")}
+              />
 
-                <button type="submit" class="log-button-patient">
-                  Login
-                </button>
-              </form>
-              <p className="demo">
-                Don't have an account?
-                <button class="switch-button-patient" onClick={toggleAuthMode}>
-                  Register
-                </button>
-              </p>
-            </div>
-            </div>
-            // </div>
-          ) : (
-              <div class="outContainer-doctor">
-                <div class="container-doctor">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="input-field-doctor-login"
+                value={loginData.password}
+                onChange={(e) => handleInputChange(e, "login")}
+              />
+
+              <button type="submit" class="log-button-patient">
+                Login
+              </button>
+            </form>
+            <p className="demo">
+              Don't have an account?
+              <button class="switch-button-patient" onClick={toggleAuthMode}>
+                Register
+              </button>
+            </p>
+          </div>
+        </div>
+      ) : (
+        // </div>
+        <div class="outContainer-doctor">
+          <div class="container-doctor">
             <div>
               <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="two">
@@ -359,13 +381,49 @@ const Auth = () => {
                   </div>
 
                   <div className="adjacent-field">
-                    <label>Clinic Location:</label>
+                    <label>Street:</label>
                     <input
                       type="text"
-                      name="clinic_location"
-                      value={formData.clinic_location}
+                      name="street"
+                      value={formData.street}
                       onChange={handleChange}
-                      placeholder="Clinic Location"
+                      placeholder="Street"
+                      class="input-field-doctor"
+                    />
+                  </div>
+
+                  <div className="adjacent-field">
+                    <label>City:</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      placeholder="City"
+                      class="input-field-doctor"
+                    />
+                  </div>
+
+                  <div className="adjacent-field">
+                    <label>State:</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                      placeholder="State"
+                      class="input-field-doctor"
+                    />
+                  </div>
+
+                  <div className="adjacent-field">
+                    <label>Pin Code:</label>
+                    <input
+                      type="text"
+                      name="pin_code"
+                      value={formData.pin_code}
+                      onChange={handleChange}
+                      placeholder="Pin Code"
                       class="input-field-doctor"
                     />
                   </div>
@@ -438,16 +496,12 @@ const Auth = () => {
                 </button>
               </p>
             </div>
-            </div>
-            </div>
-          )}
-
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            theme="colored"
-          />
+          </div>
         </div>
+      )}
+
+      <ToastContainer position="top-center" autoClose={3000} theme="colored" />
+    </div>
     //   </div>
     // </div>
   );

@@ -81,11 +81,11 @@ router.post("/doctor_signup", async (req, res) => {
     aadhar,
     field_of_study,
     past_experiences,
-    clinic_location,
+    clinic_address, 
     password,
     cpassword,
     degreeFile,
-    profilePic
+    profilePic,
   } = req.body;
 
   if (
@@ -96,7 +96,7 @@ router.post("/doctor_signup", async (req, res) => {
     !aadhar ||
     !field_of_study ||
     !past_experiences ||
-    !clinic_location ||
+    !clinic_address || 
     !password ||
     !cpassword ||
     !degreeFile ||
@@ -128,7 +128,7 @@ router.post("/doctor_signup", async (req, res) => {
         past_experiences,
         degreeFile,
         profilePic,
-        clinic_location,
+        clinic_address, 
         password,
         cpassword,
       });
@@ -202,6 +202,7 @@ router.post("/upload_prescription", async (req, res) => {
       patient_weight,
       patient_height,
       prescription,
+      medicineRecords,
     } = req.body;
 
     if (
@@ -209,9 +210,16 @@ router.post("/upload_prescription", async (req, res) => {
       !patient_age ||
       !patient_weight ||
       !patient_height ||
-      !prescription
+      !prescription ||
+      !medicineRecords ||
+      !Array.isArray(medicineRecords)
     ) {
-      return res.status(400).json({ error: "All fields are required" });
+      return res
+        .status(400)
+        .json({
+          error:
+            "All fields are required, and medicineRecords must be an array",
+        });
     }
 
     const newPrescription = new DoctorPrescription({
@@ -220,6 +228,7 @@ router.post("/upload_prescription", async (req, res) => {
       patient_weight,
       patient_height,
       prescription,
+      medicineRecords,
     });
 
     // Validate the new prescription data
@@ -234,6 +243,30 @@ router.post("/upload_prescription", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+//get doctor info from id
+router.get("/doctor_info/:id", async (req, res) => {
+  const doctorId = req.params.id;
+
+  try {
+    const doctor = await Doctor.findById(doctorId);
+
+    if (!doctor) {
+      return res.status(404).json({ error: "Doctor not found" });
+    }
+
+    const doctorInfo = {
+      _id: doctor._id,
+      name: doctor.name,
+      clinic_address:doctor.clinic_address,
+    };
+
+    return res.status(200).json(doctorInfo);
+  } catch (error) {
+    console.error("Error fetching doctor information:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

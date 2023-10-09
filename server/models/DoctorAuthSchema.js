@@ -41,9 +41,23 @@ const DoctorAuthSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  clinic_location: {
-    type: String,
-    required: true,
+  clinic_address: {
+    street: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    pin_code: {
+      type: String,
+      required: true,
+    },
   },
   password: {
     type: String,
