@@ -28,10 +28,8 @@ const Home = () => {
         formData
       );
 
-      // Assuming your backend returns the saved prescription
       console.log("Prescription saved:", response.data);
 
-      // Clear form data on successful submission
       setFormData({
         patient_name: "",
         patient_age: "",
@@ -40,11 +38,9 @@ const Home = () => {
         prescription: "",
       });
 
-      // Show success notification
       toast.success("Prescription submitted successfully");
     } catch (error) {
       if (error.response && error.response.data) {
-        // Show error notification
         toast.error(
           error.response.data.error || "Error submitting prescription"
         );
