@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "../Components/Navbar";
+import Navbar2 from "../Components/Navbar2";
 import { DoctorContext } from "./DoctorProvide.js";
 import "./Home.css";
 const API_BASE = "http://localhost:5000";
@@ -128,30 +128,20 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
-      {/* <div className="header-DocHome">
-      <h2>Upload Prescription</h2>
-      </div> */}
+      <Navbar2 />
+     
       <div className="header-DocHome">
         <h1>{doctorData.doctor_name}</h1>
-        <h2>
+        <p className="address">
           {doctorData.clinic_address.street}, {doctorData.clinic_address.city},
           {doctorData.clinic_address.state} -
           {doctorData.clinic_address.pin_code}
-        </h2>
+        </p>
+        <hr className="hrr" />
       </div>
       <form onSubmit={handleSubmit}>
         <div className="forFlex-DocHome">
-          <div className="adjacent-field-DocHome">
-            <label>Patient Code:</label>
-            <input
-              type="text"
-              name="patient_code"
-              className="input-DocHome"
-              value={formData.patient_code}
-              onChange={handleChange}
-            />
-          </div>
+        
           <div className="adjacent-field-DocHome">
             <label>Patient Name:</label>
             <input
@@ -195,20 +185,11 @@ const Home = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="adjacent-field-DocHome">
-            <label>Date:</label>
-            <input
-              type="date"
-              name="patient_date"
-              className="input-DocHome"
-              value={formData.patient_height}
-              onChange={handleChange}
-            />
-          </div>
+       
         </div>
         <div className="prescription">
           <div className="adjacent-field-DocHome-non">
-            {/* <label>Prescription:</label> */}
+           
             <textarea
               name="prescription"
               className="input-DocHome-prescription"
@@ -217,10 +198,12 @@ const Home = () => {
               placeholder="Write the prescription here."
             />
           </div>
+
         </div>
+        <hr className="hrr" />
         <h3 className="mediH3">Medications Prescribed</h3>
         <form className="medi">
-          <div className="medicineFlexBox">
+          <div className="medicineFlexBoxone">
             <div className="mediFlex">
               <label>Name of Medicine:</label>
               <input
@@ -237,7 +220,7 @@ const Home = () => {
           </div>
           <div className="medicineFlexBox">
             <div className="mediFlex">
-              <label>Morning Dose:</label>
+              <label>Morning :</label>
               <input
                 type="text"
                 name="morningDose"
@@ -247,7 +230,7 @@ const Home = () => {
               />
             </div>
             <div className="mediFlex">
-              <label>Afternoon Dose:</label>
+              <label>Afternoon :</label>
               <input
                 type="text"
                 name="afternoonDose"
@@ -257,7 +240,7 @@ const Home = () => {
               />
             </div>
             <div className="mediFlex">
-              <label>Evening Dose:</label>
+              <label>Night :</label>
               <input
                 type="text"
                 name="eveningDose"
@@ -277,18 +260,20 @@ const Home = () => {
               />
             </div>
           </div>
-          <button type="button" onClick={handleAddRow}>
+         
+          <button type="button" onClick={handleAddRow} className="btmed">
             Add Medicine
           </button>
         </form>
-        <table>
+
+        
+        <table className="mediTable">
           <thead>
             <tr>
               <th>Name of Medicine</th>
-              <th>Dose (per day)</th>
-              <th>Morning Dose</th>
-              <th>Afternoon Dose</th>
-              <th>Evening Dose</th>
+              <th>Morning</th>
+              <th>Afternoon</th>
+              <th>Night</th>
               <th>Total Days</th>
             </tr>
           </thead>
@@ -304,6 +289,7 @@ const Home = () => {
             ))}
           </tbody>
         </table>
+        
         <div className="btCenter">
           <button className="submitBt-DocHome" type="submit">
             Submit
