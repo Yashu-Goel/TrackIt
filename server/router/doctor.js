@@ -270,5 +270,7 @@ router.get("/doctor_info/:id", async (req, res) => {
   }
 });
 
+//get patient data from doctor id
+
 
 export default router;

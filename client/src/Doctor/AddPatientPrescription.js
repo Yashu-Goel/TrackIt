@@ -2,13 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar2 from "../Components/Navbar2";
+import Navbar from "./Navbar";
 import { DoctorContext } from "./DoctorProvide.js";
-import "./Home.css";
+import "./AddPatientPrescription.css";
 const API_BASE = "http://localhost:5000";
   const _id = localStorage.getItem("_id");
 
-const Home = () => {
+const AddPatientPrescription = () => {
+  const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext);
+
   const [doctorData, setDoctorData] = useState({
     doctor_name: "",
     clinic_address: {
@@ -18,42 +20,43 @@ const Home = () => {
       pin_code: "",
     },
   });
-    const [medicineData, setMedicineRecords] = useState({
+  const [medicineData, setMedicineRecords] = useState({
+    medicineName: "",
+    morningDose: "",
+    afternoonDose: "",
+    eveningDose: "",
+    totalDays: "",
+  });
+
+  const [medicineRecords, setPrescriptions] = useState([]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMedicineRecords({
+      ...medicineData,
+      [name]: value,
+    });
+  };
+  console.log(medicineRecords);
+  const handleAddRow = () => {
+    setPrescriptions([...medicineRecords, medicineData]);
+    setMedicineRecords({
       medicineName: "",
       morningDose: "",
       afternoonDose: "",
       eveningDose: "",
       totalDays: "",
     });
+  };
 
-    const [medicineRecords, setPrescriptions] = useState([]);
-
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setMedicineRecords({
-          ...medicineData,
-          [name]: value,
-        });
-      };
-      console.log(medicineRecords);
-      const handleAddRow = () => {
-        setPrescriptions([...medicineRecords, medicineData]);
-        setMedicineRecords({
-          medicineName: "",
-          morningDose: "",
-          afternoonDose: "",
-          eveningDose: "",
-          totalDays: "",
-        });
-      };
-
-    console.log(medicineData);
-
+  console.log(medicineData);
 
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
-        const response = await axios.get(API_BASE+`/doctor/doctor_info/${_id}`);
+        const response = await axios.get(
+          API_BASE + `/doctor/doctor_info/${_id}`
+        );
         console.log(response);
         const { data } = response;
 
@@ -62,14 +65,13 @@ const Home = () => {
           clinic_address: data.clinic_address,
         });
       } catch (error) {
-        console.error("Error fetching doctor data:", error);    
+        console.error("Error fetching doctor data:", error);
       }
     };
 
     fetchDoctorData();
-  }, [_id]); 
+  }, [_id]);
 
-  const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext);
   const [formData, setFormData] = useState({
     patient_name: "",
     patient_age: "",
@@ -97,21 +99,21 @@ const Home = () => {
           patient_weight: formData.patient_weight,
           patient_height: formData.patient_height,
           prescription: formData.prescription,
-          medicineRecords: medicineRecords, 
+          medicineRecords: medicineRecords,
         }
       );
 
       console.log("Prescription saved:", response.data);
 
-      // setFormData({
-      //   patient_name: "",
-      //   patient_age: "",
-      //   patient_weight: "",
-      //   patient_height: "",
-      //   prescription: "",
-      // });
+      setFormData({
+        patient_name: "",
+        patient_age: "",
+        patient_weight: "",
+        patient_height: "",
+        prescription: "",
+      });
 
-      // setPrescriptions([]); 
+      setPrescriptions([]);
 
       toast.success("Prescription submitted successfully");
     } catch (error) {
@@ -125,11 +127,9 @@ const Home = () => {
     }
   };
 
-
   return (
     <div>
-      <Navbar2 />
-     
+      <Navbar />
       <div className="header-DocHome">
         <h1>{doctorData.doctor_name}</h1>
         <p className="address">
@@ -141,7 +141,6 @@ const Home = () => {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="forFlex-DocHome">
-        
           <div className="adjacent-field-DocHome">
             <label>Patient Name:</label>
             <input
@@ -185,11 +184,9 @@ const Home = () => {
               onChange={handleChange}
             />
           </div>
-       
         </div>
         <div className="prescription">
           <div className="adjacent-field-DocHome-non">
-           
             <textarea
               name="prescription"
               className="input-DocHome-prescription"
@@ -198,7 +195,6 @@ const Home = () => {
               placeholder="Write the prescription here."
             />
           </div>
-
         </div>
         <hr className="hrr" />
         <h3 className="mediH3">Medications Prescribed</h3>
@@ -260,13 +256,12 @@ const Home = () => {
               />
             </div>
           </div>
-         
+
           <button type="button" onClick={handleAddRow} className="btmed">
             Add Medicine
           </button>
         </form>
 
-        
         <table className="mediTable">
           <thead>
             <tr>
@@ -289,7 +284,7 @@ const Home = () => {
             ))}
           </tbody>
         </table>
-        
+
         <div className="btCenter">
           <button className="submitBt-DocHome" type="submit">
             Submit
@@ -301,4 +296,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AddPatientPrescription;

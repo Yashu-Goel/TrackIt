@@ -2,9 +2,10 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PatientAuth from "./Patient/Auth";
 import DoctorAuth from "./Doctor/Auth";
-import DoctorHome from "./Doctor/Home";
+import AddPatientPrescription from "./Doctor/AddPatientPrescription";
 import Home from "./Home.js";
 import DoctorProvider from "./Doctor/DoctorProvide";
+import Dashboard from "./Doctor/Dashboard";
 
 const App = () => {
   return (
@@ -21,13 +22,22 @@ const App = () => {
         />
         <Route path="/" element={<Home />} />
         <Route
-          path="/doctor_home"
+          path="/patient_prescription"
           element={
             <DoctorProvider>
-              <DoctorHome />
+              <AddPatientPrescription />
             </DoctorProvider>
           }
         />
+        <Route
+          path="/doctor_dashboard"
+          element={
+            <DoctorProvider>
+              <Dashboard />
+            </DoctorProvider>
+          }
+        />
+      
       </Routes>
     </>
   );

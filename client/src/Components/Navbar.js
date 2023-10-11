@@ -5,7 +5,6 @@ import logo from './logo_name_white.png'
 const Navbar = () => {
     return (
         <div>
-            {/* Code here */}
             <div class="header-navbar">
                 <img src={logo} className='logo-navbar'></img>
                 <div class="lorem-navbar" >

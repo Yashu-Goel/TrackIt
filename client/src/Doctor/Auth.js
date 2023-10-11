@@ -10,7 +10,7 @@ import logo from "./profile.png";
 
 const API_BASE = "http://localhost:5000";
 const Auth = () => {
-  const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext); 
+  const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext);
   const [isLogin, setIsLogin] = useState(true);
   const [loginData, setLoginData] = useState({
     mobileOrAadhar: "",
@@ -37,7 +37,6 @@ const Auth = () => {
     pin_code: "",
     password: "",
     cpassword: "",
-    
   });
 
   const handleChange = (e) => {
@@ -126,7 +125,7 @@ const Auth = () => {
       toast.info("You must be at least 18 years old to register");
       return;
     }
-   
+
     if (password !== cpassword) {
       toast.info("Passwords do not match");
       return;
@@ -157,10 +156,10 @@ const Auth = () => {
       formData.append("aadhar", aadhar);
       formData.append("field_of_study", field_of_study);
       formData.append("past_experiences", past_experiences);
-formData.append("street", street);
-formData.append("city", city);
-formData.append("state", state);
-formData.append("pin_code", pin_code);
+      formData.append("street", street);
+      formData.append("city", city);
+      formData.append("state", state);
+      formData.append("pin_code", pin_code);
       formData.append("password", password);
       formData.append("cpassword", cpassword);
       formData.append("degreeFile", degreeFileUniqueName);
@@ -177,7 +176,6 @@ formData.append("pin_code", pin_code);
         },
       });
 
-
       await axios.post(`${API_BASE}/doctor/doctor_signup`, {
         name,
         mobile,
@@ -186,11 +184,11 @@ formData.append("pin_code", pin_code);
         aadhar,
         field_of_study,
         past_experiences,
-        clinic_address:{
+        clinic_address: {
           street,
           city,
           state,
-          pin_code
+          pin_code,
         },
         password,
         cpassword,
@@ -237,7 +235,7 @@ formData.append("pin_code", pin_code);
         localStorage.setItem("_id", _id);
         localStorage.setItem("token", token);
         setTimeout(() => {
-          navigate("/doctor_home");
+          navigate("/doctor_dashboard");
         }, 3500);
       }
     } catch (error) {

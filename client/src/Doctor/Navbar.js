@@ -1,11 +1,10 @@
 import React from 'react'
-import "./Navbar2.css";
-import logo from './logo_name_white.png'
+import "./Navbar.css";
+import logo from '../Components/logo_name_white.png'
 
-const Navbar2 = () => {
+const Navbar = () => {
     return (
         <div>
-            {/* Code here */}
             <div class="header-navbar">
                 <img src={logo} className='logo-navbar'></img>
                 <div className="navbar">
@@ -20,4 +19,4 @@ const Navbar2 = () => {
     )
 }
 
-export default Navbar2
+export default Navbar
