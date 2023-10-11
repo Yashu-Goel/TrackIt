@@ -233,7 +233,7 @@ margin-bottom: 10px;
         
 }
 
-.meditable td{
+.mediTable td{
     text-align: center;
        
         vertical-align: middle;
@@ -248,7 +248,7 @@ margin-bottom: 10px;
 
 .mediTable :nth-child(odd) td {
  
-    background-color: rgb(246, 241, 241);
+    background-color:rgb(237, 235, 235);
 }
 
 .btmed{

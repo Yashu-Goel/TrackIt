@@ -1,9 +1,28 @@
 import React from 'react'
-
+import { Link } from "react-router-dom";
+import './RightSidebar.css'
 const RightSidebar = () => {
+  const data = [
+    {
+      data_item: "Add Patient Prescription",
+      link_to: "/patient_prescription",
+    },
+
+  ];
   return (
-    <div>RightSidebar</div>
-  )
+    <div className="SellerLeftSideBarMain">
+      <div className="DataItems">
+        {data.map((item, index) => (
+          <Link to={item.link_to} key={index} className="LinkStyle">
+            <div className="DataItem">
+              <p>{item.data_item}</p>
+              <span>&gt;</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default RightSidebar
