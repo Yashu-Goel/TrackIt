@@ -25,7 +25,7 @@
 }
 
 
-select {
+.navbar select {
     
     width: 15px;
     background-color:black;
@@ -41,7 +41,7 @@ select {
     border: none;
 }
 
-select option {
+.navbar select option {
     border-radius: 0px;
     background-color: black;
     color: #fff;
@@ -50,6 +50,6 @@ select option {
 }
 
 /* Style the selected option differently */
-select option:checked {
+.navbar select option:checked {
     background-color: black;
 }
