@@ -37,7 +37,13 @@ const Dashboard = () => {
               name='otp'
               />
               </div>
+
                 </form>
+            <button
+              className="dash-bt"
+            >
+              Submit
+            </button>
               </div>
             </div>
             <RightSidebar />

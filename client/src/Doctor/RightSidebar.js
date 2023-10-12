@@ -2,24 +2,11 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import './RightSidebar.css'
 const RightSidebar = () => {
-  const data = [
-    {
-      data_item: "Add Patient Prescription",
-      link_to: "/patient_prescription",
-    },
 
-  ];
   return (
-    <div className="SellerLeftSideBarMain">
-      <div className="DataItems">
-        {data.map((item, index) => (
-          <Link to={item.link_to} key={index} className="LinkStyle">
-            <div className="DataItem">
-              <p>{item.data_item}</p>
-              <span>&gt;</span>
-            </div>
-          </Link>
-        ))}
+    <div className="DashboardRightSideBarMain">
+      <div className="DataItemsRight">
+       <p>News and Updates</p>
       </div>
     </div>
   );

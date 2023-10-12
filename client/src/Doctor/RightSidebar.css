@@ -4,57 +4,20 @@
 }
 
 
-.SellerLeftSideBarMain {
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+.DashboardRightSideBarMain {
+    box-shadow: rgba(0, 0, 0, 0.15) -1.95px 1.95px 2.6px;
     width: 21%;
-    left: 0;
+    /* right:0; */
     margin-top: 40px;
     background-color: white;
-    border-bottom-right-radius: 5px;
+    /* border-bottom-left-radius: 5px; */
     min-height: 100vh;
 }
 
-.DataItems {
-    font-size: 1.2rem;
-    padding: 0.6rem 0.4rem;
-    text-decoration: none;
-}
-
-.LinkStyle {
-    text-decoration: none;
-    color: black;
-
-}
-
-.DataItem {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.2rem;
-    padding: 0.6rem 0.4rem;
-    position: relative;
-}
-
-.DataItem::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    bottom: 0;
-    height: 2.5px;
-    background-color: #33333389;
-    transition: all 1s ease;
-}
-
-.DataItem:hover::after {
-    width: 100%;
-}
-
-
-.DataItems p {
-    display: flex;
-    align-items: center;
+.DataItemsRight p{
     font-weight: bold;
+    text-decoration: underline;
+    padding: 0.6rem 0.4rem;
+    font-size: 1.2rem;
 }
 
-.DataItems span {
-    font-size: 2rem;
-}

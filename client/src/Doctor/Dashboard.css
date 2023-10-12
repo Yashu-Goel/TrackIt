@@ -80,3 +80,21 @@
     width: 200px;
 }
 
+.dash-bt{
+    padding: 10px 18px;
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease-in-out;
+        width: 250px;
+        /* margin-left: 110px; */
+        margin-bottom: 10px;
+}
+
+.dash-bt:hover {
+    background-color: rgb(43, 38, 38);
+}
+
