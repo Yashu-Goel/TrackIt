@@ -13,6 +13,10 @@ const LeftSidebar = () => {
         data_item: "Add Patient Prescription",
         link_to: "/patient_prescription",
       },
+      {
+        data_item: "Patients",
+        link_to: "/patients",
+      },
       
     ];
   return (

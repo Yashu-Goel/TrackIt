@@ -6,6 +6,7 @@ import AddPatientPrescription from "./Doctor/AddPatientPrescription";
 import Home from "./Home.js";
 import DoctorProvider from "./Doctor/DoctorProvide";
 import Dashboard from "./Doctor/Dashboard";
+import GetPatients from "./Doctor/GetPatients";
 
 const App = () => {
   return (
@@ -37,7 +38,14 @@ const App = () => {
             </DoctorProvider>
           }
         />
-      
+        <Route
+          path="/patients"
+          element={
+            <DoctorProvider>
+              <GetPatients />
+            </DoctorProvider>
+          }
+        />
       </Routes>
     </>
   );

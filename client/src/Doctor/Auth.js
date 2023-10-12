@@ -233,7 +233,7 @@ const Auth = () => {
         toast.success("Login success!!");
         const { _id, token } = response.data;
         localStorage.setItem("_id", _id);
-        localStorage.setItem("token", token);
+        toggleLoginStatus();
         setTimeout(() => {
           navigate("/doctor_dashboard");
         }, 3500);
@@ -498,7 +498,6 @@ const Auth = () => {
         </div>
       )}
 
-      <ToastContainer position="top-center" autoClose={3000} theme="colored" />
     </div>
     //   </div>
     // </div>

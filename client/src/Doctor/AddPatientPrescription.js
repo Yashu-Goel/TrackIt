@@ -38,7 +38,25 @@ const AddPatientPrescription = () => {
   };
   console.log(medicineRecords);
   const handleAddRow = () => {
-    setPrescriptions([...medicineRecords, medicineData]);
+    const validatedMedicineData = {
+      medicineName: medicineData.medicineName,
+      morningDose:
+        medicineData.morningDose === ""
+          ? 0
+          : parseInt(medicineData.morningDose),
+      afternoonDose:
+        medicineData.afternoonDose === ""
+          ? 0
+          : parseInt(medicineData.afternoonDose),
+      eveningDose:
+        medicineData.eveningDose === ""
+          ? 0
+          : parseInt(medicineData.eveningDose),
+      totalDays: medicineData.totalDays,
+    };
+
+    setPrescriptions([...medicineRecords, validatedMedicineData]);
+
     setMedicineRecords({
       medicineName: "",
       morningDose: "",
@@ -47,6 +65,7 @@ const AddPatientPrescription = () => {
       totalDays: "",
     });
   };
+
 
 
   useEffect(() => {
@@ -168,7 +187,7 @@ const AddPatientPrescription = () => {
           </div>
 
           <div className="adjacent-field-DocHome">
-            <label>Patient Weight:</label>
+            <label>Patient Weight(kg):</label>
             <input
               type="number"
               name="patient_weight"
@@ -179,7 +198,7 @@ const AddPatientPrescription = () => {
           </div>
 
           <div className="adjacent-field-DocHome">
-            <label>Patient Height:</label>
+            <label>Patient Height(cm):</label>
             <input
               type="number"
               name="patient_height"
@@ -222,7 +241,7 @@ const AddPatientPrescription = () => {
             <div className="mediFlex">
               <label>Morning :</label>
               <input
-                type="text"
+                type="number"
                 name="morningDose"
                 className="input-DocHome"
                 value={medicineData.morningDose}
@@ -232,7 +251,7 @@ const AddPatientPrescription = () => {
             <div className="mediFlex">
               <label>Afternoon :</label>
               <input
-                type="text"
+                type="number"
                 name="afternoonDose"
                 className="input-DocHome"
                 value={medicineData.afternoonDose}
@@ -242,7 +261,7 @@ const AddPatientPrescription = () => {
             <div className="mediFlex">
               <label>Night :</label>
               <input
-                type="text"
+                type="number"
                 name="eveningDose"
                 className="input-DocHome"
                 value={medicineData.eveningDose}
@@ -252,7 +271,7 @@ const AddPatientPrescription = () => {
             <div className="mediFlex">
               <label>Total Days:</label>
               <input
-                type="text"
+                type="number"
                 name="totalDays"
                 className="input-DocHome"
                 value={medicineData.totalDays}
