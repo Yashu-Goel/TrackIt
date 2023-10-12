@@ -52,6 +52,10 @@ const DoctorPrescriptionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  doctorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
+  },
 });
 
 export default mongoose.model("DoctorPrescription", DoctorPrescriptionSchema);

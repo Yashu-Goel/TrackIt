@@ -6,11 +6,10 @@ import Navbar from "./Navbar";
 import { DoctorContext } from "./DoctorProvide.js";
 import "./AddPatientPrescription.css";
 const API_BASE = "http://localhost:5000";
-  const _id = localStorage.getItem("_id");
 
 const AddPatientPrescription = () => {
   const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext);
-
+  const _id = localStorage.getItem("_id");
   const [doctorData, setDoctorData] = useState({
     doctor_name: "",
     clinic_address: {
@@ -49,11 +48,15 @@ const AddPatientPrescription = () => {
     });
   };
 
-  console.log(medicineData);
 
   useEffect(() => {
     const fetchDoctorData = async () => {
       try {
+        if(!_id)
+        {
+          toast.error("Kindly Login First!!")
+          return;
+        }
         const response = await axios.get(
           API_BASE + `/doctor/doctor_info/${_id}`
         );
@@ -100,6 +103,7 @@ const AddPatientPrescription = () => {
           patient_height: formData.patient_height,
           prescription: formData.prescription,
           medicineRecords: medicineRecords,
+          doctorId: _id
         }
       );
 

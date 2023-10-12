@@ -203,6 +203,7 @@ router.post("/upload_prescription", async (req, res) => {
       patient_height,
       prescription,
       medicineRecords,
+      doctorId
     } = req.body;
 
     if (
@@ -229,6 +230,7 @@ router.post("/upload_prescription", async (req, res) => {
       patient_height,
       prescription,
       medicineRecords,
+      doctorId,
     });
 
     // Validate the new prescription data
@@ -271,6 +273,19 @@ router.get("/doctor_info/:id", async (req, res) => {
 });
 
 //get patient data from doctor id
+router.get("/patient_data/:id", async(req,res)=>{
+  try {
+    const doctorId = req.params.id;
+    const prescription = await DoctorPrescription.find({doctorId: doctorId});
+    if(!prescription){
+      return res.status(404).json({ error: "Prescription not found" });
+    }
+    res.status(200).json(prescription);
 
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+})
 
 export default router;
