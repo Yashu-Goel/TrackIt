@@ -1,0 +1,44 @@
+.getpatients-h1{
+    margin-top: 40px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    text-decoration: underline rgb(71, 69, 69);
+}
+
+.getpatients-table{
+    border: 0.5px solid grey;
+        border-spacing: 0px;
+        border-bottom: 0.5px solid grey;
+        
+        width: 100%;
+}
+
+.getpatients-table th {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    margin-top: 0px;
+    text-align: center;
+    vertical-align: middle;
+
+    padding: 5px;
+
+}
+
+.getpatients-table td {
+    text-align: center;
+
+    vertical-align: middle;
+
+    padding: 2px;
+}
+
+.getpatients-table tr:nth-child(even) td {
+    background-color: white;
+
+}
+
+.getpatients-table :nth-child(odd) td {
+
+    background-color: rgb(237, 235, 235);
+}
