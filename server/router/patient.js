@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 router.post("/patient_signup", async (req, res) => {
   try {
     console.log("Received signup request:", req.body);
-    const { name, dob, gender, mobile, email, aadhar, password, cpassword } =
+    const { name, dob, gender, mobile, email, aadhar, password, cpassword, id } =
       req.body;
 
     if (
@@ -29,15 +29,17 @@ router.post("/patient_signup", async (req, res) => {
       !email ||
       !aadhar ||
       !password ||
-      !cpassword
+      !cpassword ||
+      !id
     ) {
       return res.status(422).json({ error: "Please fill all the fields" });
     }
 
     const patientExistsByMobile = await Patient.findOne({ mobile: mobile });
     const patientExistsByAadhar = await Patient.findOne({ aadhar: aadhar });
+    const patientExistsById = await Patient.findOne({ id: id });
 
-    if (patientExistsByMobile || patientExistsByAadhar) {
+    if (patientExistsByMobile || patientExistsByAadhar || patientExistsById) {
       return res.status(422).json({ error: "Patient already exists" });
     } else if (password !== cpassword) {
       return res.status(422).json({
@@ -53,8 +55,8 @@ router.post("/patient_signup", async (req, res) => {
         aadhar,
         password,
         cpassword,
+        id,
       });
-
 
       if (patient) {
         return res.status(200).json({
@@ -116,5 +118,21 @@ router.post("/patient_login", async (req, res) => {
   }
 });
 
+//get patient data from custom id
+router.get("/patient_data/:id", async(req,res)=>{
+  console.log(req.params.id);
+  try {
+    const patientId = req.params.id;
+    const patient = await Patient.findOne({
+      id: patientId,
+    });
+    if (!patient) {
+      return res.status(404).json({ error: "Patient not found" });
+    }
+    res.status(200).json(patient);
 
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+})
 export default router;

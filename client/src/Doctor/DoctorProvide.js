@@ -40,9 +40,8 @@ const DoctorProvider = ({ children }) => {
     }, 2200);
   };
 
-  // Wait until loading is complete before rendering children
   if (isLoading) {
-    return null; // or some loading indicator
+    return null; 
   }
 
   return (

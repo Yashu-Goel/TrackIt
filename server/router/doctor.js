@@ -197,8 +197,6 @@ router.post("/upload_prescription", async (req, res) => {
   console.log(req.body);
   try {
     const {
-      patient_name,
-      patient_age,
       patient_weight,
       patient_height,
       prescription,
@@ -207,25 +205,18 @@ router.post("/upload_prescription", async (req, res) => {
     } = req.body;
 
     if (
-      !patient_name ||
-      !patient_age ||
       !patient_weight ||
       !patient_height ||
       !prescription ||
       !medicineRecords ||
       !Array.isArray(medicineRecords)
     ) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "All fields are required, and medicineRecords must be an array",
-        });
+      return res.status(400).json({
+        error: "All fields are required, and medicineRecords must be an array",
+      });
     }
 
     const newPrescription = new DoctorPrescription({
-      patient_name,
-      patient_age,
       patient_weight,
       patient_height,
       prescription,
@@ -287,5 +278,7 @@ router.get("/patient_data/:id", async(req,res)=>{
   }
 
 })
+
+
 
 export default router;

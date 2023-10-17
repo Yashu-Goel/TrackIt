@@ -7,8 +7,7 @@ import Navbar from "../Components/Navbar.js";
 import { DoctorContext } from "./DoctorProvide.js";
 import "./Auth.css";
 import logo from "./profile.png";
-
-const API_BASE = "http://localhost:5000";
+import { API_BASE } from "../functions.js";
 const Auth = () => {
   const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext);
   const [isLogin, setIsLogin] = useState(true);

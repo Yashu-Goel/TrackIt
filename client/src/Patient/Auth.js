@@ -5,12 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Components/Navbar.js";
 import "./Auth.css";
-
-const API_BASE = "http://localhost:5000";
+import {API_BASE} from "../functions.js"
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-
+  const [uniqueCode, setUniqueCode]=useState("");
   const [signupData, setSignupData] = useState({
     name: "",
     dob: "",
@@ -20,6 +19,7 @@ const Auth = () => {
     aadhar: "",
     password: "",
     cpassword: "",
+    id:""
   });
   const navigate = useNavigate();
 
@@ -55,6 +55,21 @@ const Auth = () => {
       console.error("Login failed", error);
     }
   };
+  const generateUniqueCode = (name) => {
+    const characters = "0123456789";
+    const codeLength = 3;
+
+    const namePrefix = name.slice(0, 3).toUpperCase();
+    let generatedCode = namePrefix;
+
+    for (let i = 0; i < codeLength; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      generatedCode += characters.charAt(randomIndex);
+    }
+    return generatedCode
+  };
+
+
 
   //signup
   const handleSignup = async (e) => {
@@ -74,12 +89,12 @@ const Auth = () => {
       toast.info("Password and Confirm Password must be same");
       return;
     }
-    if (signupData.mobile.length > 10 || signupData.mobile.length < 10)
+    if (signupData.mobile.length != 10)
     {
       toast.info("Mobile Number must be of 10 digits");
       return;
     }
-    if (signupData.aadhar.length > 12 || signupData.aadhar.length < 12)
+    if (signupData.aadhar.length != 12)
     {
       toast.info("Aadhar Number must be of 12 digits");
       return;
@@ -91,19 +106,20 @@ const Auth = () => {
         return;
     }
       try {
+        signupData.id = generateUniqueCode(signupData.name)
         console.log("Sending signup data:", signupData);
         const response = await axios.post(
           `${API_BASE}/patient/patient_signup`,
           signupData
         );
-
+        
         console.log("Signup response:", response);
 
         if (response.data.error) {
           toast.error(response.data.error);
         } else {
           toast.success("Registered");
-          console.log(response.data);
+          setUniqueCode(signupData.id);
         }
       } catch (error) {
         toast.error(error.response?.data?.error || "Signup failed");

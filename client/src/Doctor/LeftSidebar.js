@@ -6,10 +6,6 @@ import logo from "./profile.png";
 const LeftSidebar = () => {
     const data = [
       {
-        data_item: "Patient Data",
-        link_to: "/patient_prescription",
-      },
-      {
         data_item: "Add Patient Prescription",
         link_to: "/patient_prescription",
       },

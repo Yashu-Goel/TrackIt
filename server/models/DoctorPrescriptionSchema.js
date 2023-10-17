@@ -24,14 +24,6 @@ const MedicineRecordSchema = new mongoose.Schema({
 });
 
 const DoctorPrescriptionSchema = new mongoose.Schema({
-  patient_name: {
-    type: String,
-    required: true,
-  },
-  patient_age: {
-    type: String,
-    required: true,
-  },
   patient_weight: {
     type: String,
     required: true,

@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Navbar";
 import { DoctorContext } from "./DoctorProvide.js";
 import "./AddPatientPrescription.css";
-const API_BASE = "http://localhost:5000";
-
+import {API_BASE} from "../functions"
 const AddPatientPrescription = () => {
   const { isLoggedIn, toggleLoginStatus, logout } = useContext(DoctorContext);
   const _id = localStorage.getItem("_id");
@@ -26,7 +25,11 @@ const AddPatientPrescription = () => {
     eveningDose: "",
     totalDays: "",
   });
+  const [patientData, setPatientData] = useState({
+    patient_name:"",
+    patient_age:"",
 
+  });
   const [medicineRecords, setPrescriptions] = useState([]);
 
   const handleInputChange = (e) => {
@@ -36,7 +39,6 @@ const AddPatientPrescription = () => {
       [name]: value,
     });
   };
-  console.log(medicineRecords);
   const handleAddRow = () => {
     const validatedMedicineData = {
       medicineName: medicineData.medicineName,
@@ -79,7 +81,6 @@ const AddPatientPrescription = () => {
         const response = await axios.get(
           API_BASE + `/doctor/doctor_info/${_id}`
         );
-        console.log(response);
         const { data } = response;
 
         setDoctorData({
@@ -95,8 +96,7 @@ const AddPatientPrescription = () => {
   }, [_id]);
 
   const [formData, setFormData] = useState({
-    patient_name: "",
-    patient_age: "",
+    patient_id: "",
     patient_weight: "",
     patient_height: "",
     prescription: "",
@@ -116,8 +116,6 @@ const AddPatientPrescription = () => {
       const response = await axios.post(
         API_BASE + "/doctor/upload_prescription",
         {
-          patient_name: formData.patient_name,
-          patient_age: formData.patient_age,
           patient_weight: formData.patient_weight,
           patient_height: formData.patient_height,
           prescription: formData.prescription,
@@ -129,8 +127,7 @@ const AddPatientPrescription = () => {
       console.log("Prescription saved:", response.data);
 
       setFormData({
-        patient_name: "",
-        patient_age: "",
+        patient_id: "",
         patient_weight: "",
         patient_height: "",
         prescription: "",
@@ -149,6 +146,47 @@ const AddPatientPrescription = () => {
       }
     }
   };
+  //age calculator
+   const calculateAge = (dob) => {
+     const birthDate = new Date(dob);
+     const today = new Date();
+     const age = today.getFullYear() - birthDate.getFullYear();
+     const monthDiff = today.getMonth() - birthDate.getMonth();
+
+     if (
+       monthDiff < 0 ||
+       (monthDiff === 0 && today.getDate() < birthDate.getDate())
+     ) {
+       return age - 1;
+     } else {
+       return age;
+     }
+   };
+  //find patient from id
+const handlePatient = async () => {
+  const id = formData.patient_id;
+  if(!id)
+  {
+    toast.info("Enter Patient Id")
+    return;
+  }
+  try {
+    const response = await axios.get(API_BASE + `/patient/patient_data/${id}`);
+    const patient = response.data;
+
+    if (!patient) {
+      toast.info("Patient not registered!!")
+      return;
+    }
+    console.log(patient);
+    setPatientData({
+      patient_name: patient.name,
+      patient_age: calculateAge(patient.dob),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <div>
@@ -162,30 +200,27 @@ const AddPatientPrescription = () => {
         </p>
         <hr className="hrr" />
       </div>
+      <div className="adjacent-field-DocHome">
+        <label>Patient Id:</label>
+        <input
+          type="text"
+          name="patient_id"
+          className="input-DocHome"
+          value={formData.patient_id}
+          onChange={handleChange}
+        />
+        <button onClick={handlePatient}>Find Patient</button>
+        <div>
+          {patientData && (
+            <div>
+              <h2>Name: {patientData.patient_name}</h2>
+              <p>Age: {patientData.patient_age}</p>
+            </div>
+          )}
+        </div>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="forFlex-DocHome">
-          <div className="adjacent-field-DocHome">
-            <label>Patient Name:</label>
-            <input
-              type="text"
-              name="patient_name"
-              className="input-DocHome"
-              value={formData.patient_name}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="adjacent-field-DocHome">
-            <label>Patient Age:</label>
-            <input
-              type="number"
-              name="patient_age"
-              className="input-DocHome"
-              value={formData.patient_age}
-              onChange={handleChange}
-            />
-          </div>
-
           <div className="adjacent-field-DocHome">
             <label>Patient Weight(kg):</label>
             <input
