@@ -92,19 +92,19 @@
 }
 
 
-.forFlex-DocHome{
+/* .forFlex-DocHome{
     display: flex;
     flex-direction: row;
     -webkit-flex-wrap: wrap;
         flex-wrap: wrap;
-        margin-top: 10px;
+        margin-top: 10px; */
         /* justify-content: space-between; */
-        justify-content: center;
+        /* justify-content: center; */
         /* margin-left: 10px;
         margin-right: 10px; */
 
      
-}
+/* } */
 
 .hrr{
     height: 2px;
@@ -115,15 +115,54 @@
     margin-top: 15px;
 }
 
+.new1{
+    margin-left: 10px;
+}
 
+.new1 label{
+    margin-bottom: 10px;
+        font-weight: bold;
+}
 
-
-
-.adjacent-field-DocHome label {
+.new1 p {
     margin-bottom: 10px;
     font-weight: bold;
-    /* padding-left: 10px;  */
 }
+
+.new2 {
+    margin-left: 10px;
+}
+
+.new2 label{
+    
+            margin-bottom: 10px;
+            font-weight: bold;
+        
+}
+.new1 button{
+    margin-left: 15px;
+    background-color: black;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background-color 0.3s ease-in-out;
+        padding: 8px 8px 8px 8px;
+        
+        width: 100px;
+        margin-top: 10px;
+}
+
+
+
+
+
+/* .adjacent-field-DocHome label {
+    margin-bottom: 10px;
+    font-weight: bold; */
+    /* padding-left: 10px;  */
+
 
 
 .input-DocHome{

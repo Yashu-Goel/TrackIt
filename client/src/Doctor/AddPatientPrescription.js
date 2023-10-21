@@ -200,8 +200,10 @@ const handlePatient = async () => {
         </p>
         <hr className="hrr" />
       </div>
-      <div className="adjacent-field-DocHome">
-        <label>Patient Id:</label>
+      {/* <div className="adjacent-field-DocHome"> */}
+    
+      <div className="new1">
+        <label>Enter Patient Id:</label>
         <input
           type="text"
           name="patient_id"
@@ -213,14 +215,14 @@ const handlePatient = async () => {
         <div>
           {patientData && (
             <div>
-              <h2>Name: {patientData.patient_name}</h2>
+              <p>Name: {patientData.patient_name}</p>
               <p>Age: {patientData.patient_age}</p>
             </div>
           )}
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="forFlex-DocHome">
+        <div className="new2">
           <div className="adjacent-field-DocHome">
             <label>Patient Weight(kg):</label>
             <input
@@ -243,6 +245,7 @@ const handlePatient = async () => {
             />
           </div>
         </div>
+        
         <div className="prescription">
           <div className="adjacent-field-DocHome-non">
             <textarea
