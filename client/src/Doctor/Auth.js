@@ -146,7 +146,6 @@ const Auth = () => {
       const profilePicUniqueName =
         uploadUrlResponseProfilePic.data.uniqueFilename;
       const signedUrlProfilePic = uploadUrlResponseProfilePic.data.signedUrl;
-
       const formData = new FormData();
       formData.append("name", name);
       formData.append("mobile", mobile);
@@ -163,19 +162,22 @@ const Auth = () => {
       formData.append("cpassword", cpassword);
       formData.append("degreeFile", degreeFileUniqueName);
       formData.append("profilePic", profilePicUniqueName);
+      console.log(profilePicUniqueName);
+
       await axios.put(signedUrlDegreeFile, degreeFile, {
         headers: {
           "Content-Type": degreeFile.type,
         },
       });
+      console.log(profilePicUniqueName);
+
 
       await axios.put(signedUrlProfilePic, profilePic, {
         headers: {
           "Content-Type": profilePic.type,
         },
-      });
-
-      await axios.post(`${API_BASE}/doctor/doctor_signup`, {
+      }); 
+      const res = await axios.post(API_BASE+"/doctor/doctor_signup", {
         name,
         mobile,
         dob,
@@ -194,6 +196,7 @@ const Auth = () => {
         degreeFile: degreeFileUniqueName,
         profilePic: profilePicUniqueName,
       });
+      console.log(res.data);
       setTimeout(() => {
         window.location.reload();
       }, 3500);

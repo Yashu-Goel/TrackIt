@@ -9,7 +9,7 @@ const DoctorAuthSchema = new mongoose.Schema({
   mobile: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
   },
   dob: {
     type: Date,
@@ -23,7 +23,7 @@ const DoctorAuthSchema = new mongoose.Schema({
   aadhar: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
   },
   field_of_study: {
     type: String,

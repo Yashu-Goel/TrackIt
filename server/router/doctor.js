@@ -87,7 +87,6 @@ router.post("/doctor_signup", async (req, res) => {
     degreeFile,
     profilePic,
   } = req.body;
-
   if (
     !name ||
     !dob ||
@@ -109,15 +108,12 @@ router.post("/doctor_signup", async (req, res) => {
 
   try {
     const doctorExistsByMobile = await Doctor.findOne({ mobile: mobile });
+    console.log(doctorExistsByMobile);
     const doctorExistsByAadhar = await Doctor.findOne({ aadhar: aadhar });
-
+    console.log(doctorExistsByAadhar);
     if (doctorExistsByMobile || doctorExistsByAadhar) {
       return res.status(422).json({ error: "Doctor already exists" });
-    } else if (password !== cpassword) {
-      return res.status(422).json({
-        error: "Password and Confirm Password must be the same!",
-      });
-    } else {
+     } else {
       const doctor = await Doctor.create({
         name,
         mobile,
@@ -155,7 +151,6 @@ router.post("/doctor_login", async (req, res) => {
   try {
     const details = req.body;
     console.log(req.body);
-
     const { mobileOrAadhar, password } = details;
     if (!mobileOrAadhar || !password) {
       return res.status(400).json({ error: "Please fill all the details" });
@@ -197,6 +192,8 @@ router.post("/upload_prescription", async (req, res) => {
   console.log(req.body);
   try {
     const {
+      patient_name,
+      patient_age,
       patient_weight,
       patient_height,
       prescription,
@@ -205,6 +202,8 @@ router.post("/upload_prescription", async (req, res) => {
     } = req.body;
 
     if (
+      !patient_name ||
+      !patient_age ||
       !patient_weight ||
       !patient_height ||
       !prescription ||
@@ -217,6 +216,8 @@ router.post("/upload_prescription", async (req, res) => {
     }
 
     const newPrescription = new DoctorPrescription({
+      patient_name,
+      patient_age,
       patient_weight,
       patient_height,
       prescription,

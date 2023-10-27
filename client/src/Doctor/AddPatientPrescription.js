@@ -97,6 +97,8 @@ const AddPatientPrescription = () => {
 
   const [formData, setFormData] = useState({
     patient_id: "",
+    patient_name: "",
+    patient_age: "",
     patient_weight: "",
     patient_height: "",
     prescription: "",
@@ -116,11 +118,13 @@ const AddPatientPrescription = () => {
       const response = await axios.post(
         API_BASE + "/doctor/upload_prescription",
         {
+          patient_name: patientData.patient_name,
+          patient_age: patientData.patient_age,
           patient_weight: formData.patient_weight,
           patient_height: formData.patient_height,
           prescription: formData.prescription,
           medicineRecords: medicineRecords,
-          doctorId: _id
+          doctorId: _id,
         }
       );
 
